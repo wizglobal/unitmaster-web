@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">YOUR DETAILS</h3>
+  </div>
+  <div class="panel-body">
+      <div class="col-md-6">
+            <p class="text-capitalize">MEMBER NUMBER  {{memberdetails.memberNo}}</p>
+            <p class="text-capitalize">FULL NAMES  {{memberdetails.allnames}}</p>
+            <p class="text-capitalize">REG DATE  {{memberdetails.regDate}}</p>
+            <p class="text-capitalize">MEMBER TYPE  {{memberdetails.hseNo}}</p>
+      </div>  
+      <div class="col-md-6">
+            <p class="text-capitalize">ID NUMBER  {{memberdetails.idNo}}</p>
+            <p class="text-capitalize">EMAIL  {{memberdetails.EMail}}</p>
+            <p class="text-capitalize">GENDER  {{memberdetails.gender}}</p>
+            <p class="text-capitalize">PHONE  {{memberdetails.gsmNo}}</p>
+      </div>  
+  </div>
+</div>
+    
+</div>
+
+<div class="row">
+    <div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">THESE ARE YOUR ACCOUNTS</h3>
+  </div>
+  <div class="panel-body">
+     <table class="table table-hover table-condensed table-responsive">
+    <thead>
+      <tr>
+        <th>ACCOUNT NO</th>
+        <th>DESCRIPTIONS</th>
+        <th>FINANCIAL ADVISORS</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="request in memberaccounts">
+                     <td>{{ request.ACCOUNT_NO }}</td>
+                    <td>{{ request.DESCRIPT }}</td>
+                    <td ><a ng-click="ViewAdvisor(request.AGENT_NO)">{{ request.AGENT_NAME}}</a></td>
+                      <td> <button type="button" class="btn btn-warning btn-sm"  ng-click="ViewAdvisor(request.AGENT_NO)">View Account ?</button></td>           
+                  </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+    
+</div>
+
+<div class="row">
+    <div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">BENEFICIARIES</h3>
+  </div>
+  <div class="panel-body">
+     <table class="table table-hover table-condensed table-responsive">
+    <thead>
+      <tr>
+        <th>NAMES</th>
+        <th>POST ADDRESS</th>
+        <th>TEL NO</th>
+        <th>PHYSICAL ADDRESS</th>
+        <th>MOBILE NO.</th>
+        <th>EMAIL</th>
+        <th>RELATIONSHIP</th>
+        <th>PERCENTAGE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="ben in memberbeneficiaries">
+                     <td>{{ ben.allnames }}</td>
+                    <td>{{ ben.postAddress }}</td>
+                      <td>{{ ben.gsmNo}}</td>
+                     <td>{{ ben.PHYS_ADDRESS }}</td>
+                    <td>{{ ben.telno}}</td>
+                      <td>{{ ben.E_MAIL}}</td>
+                     <td>{{ ben.RELATIONSHIP }}</td>
+                    <td>{{ ben.percentage }}</td>
+                   
+                     
+                  </tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+    
+</div>
