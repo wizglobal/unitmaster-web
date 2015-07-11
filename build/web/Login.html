@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+   
+           <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
+	   <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css" />
+           <link rel="stylesheet" href="styles/home/login.css">
+   
+  </head>
+
+ <body ng-app="WizglobalAppLogin" >
+
+<div data-ng-controller="loginCtrl" class="wrapper">
+
+    <form class="form-signin account-wall">
+	     <h3 class="form-signin-heading"> <span class="fa fa-sign-in"> Wizglobal Login</h3>
+		 <span ng-show="showSpinner"><i class="fa fa-refresh fa-spin"></i></span>
+	  <a class="pull-right" href="/index.html"><span class="glyphicon glyphicon-home"></span><strong>   
+	   Home</strong></a>
+      <input type="text" class="form-control" name="username" placeholder="username" required="" ng-model="user.username" autofocus="" />
+      <input type="password" class="form-control" name="password" placeholder="Password" ng-model="user.password" required=""/>      
+      <label class="checkbox">
+        <input type="checkbox" value="remember-me" id="rememberMe" name="rememberMe"> Remember me
+      </label>
+      <button ng-disabled="login.$invalid" ng-click="Userlogin()" class="btn btn-lg btn-primary btn-block" type="submit">Login</button> 
+	  <hr>
+      <p> By Signing in, you confirm that you've reviewed & accepted the <a href="/Terms.html">Terms & Conditions.</a></p>
+       <a  href="/AccountRecovery.html">Forgot Password</a>
+	   <br>
+
+	   <hr>
+	  
+    </form>
+ 
+
+  
+    	
+  </div>
+
+  
+
+
+
+    <script src="lib/jquery/jquery-2.1.4.min.js"></script>
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+   
+
+    <script src="scripts/Home/controller/login.js"></script>
+    
+   </body>
+</html>
