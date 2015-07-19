@@ -44,6 +44,33 @@ CustomerMngt.controller('Mainctrl', function ($scope,$window,customerFactory) {
 CustomerMngt.controller('accountctrl', function ($scope,$window,customerFactory) {
     
 });
+CustomerMngt.controller('changepasswordctrl', function ($scope,$window,customerFactory) {
+    
+});
+CustomerMngt.controller('feedbackctrl', function ($scope,$window,customerFactory) {
+    
+});
+CustomerMngt.controller('profilectrl', function ($scope,$window,customerFactory) {
+    
+});
+
+CustomerMngt.controller('accountstatementctrl', function ($scope,$window,customerFactory,$route) {
+     $scope.accountnumber=angular.fromJson(atob($route.current.params.accountnumber));
+    
+           customerFactory.getAccountTransaction($scope.accountnumber)
+						 .success(function(data) {
+							$scope.transactions=data;
+                          
+							 }) 
+						 .error(function(data) {
+							details=[];	
+							 });
+                                                         
+        $scope.generatepdf=function(){
+            alert("Generating ...");
+        }                                                 
+});
+
 CustomerMngt.controller('agentdetailsctrl', function ($scope,customerFactory,$route) {
     
     $scope.agentcode=angular.fromJson(atob($route.current.params.agentcode));
@@ -58,7 +85,7 @@ CustomerMngt.controller('agentdetailsctrl', function ($scope,customerFactory,$ro
 							 });
 });
 
-CustomerMngt.controller('profilectrl', function ($scope,$window,customerFactory,CustomerDetails,$location) {
+CustomerMngt.controller('homectrl', function ($scope,$window,customerFactory,CustomerDetails,$location) {
 
                  
                                                             customerFactory.getCustomerDetails()
@@ -92,7 +119,14 @@ CustomerMngt.controller('profilectrl', function ($scope,$window,customerFactory,
              	var det = angular.toJson(advisorCode);
                    det=btoa(det);
              $location.path('/agentdetails/'+det);
-         }                                                
+         }   
+         
+         
+         $scope.ViewAccount=function(accountnumber){
+             	var det = angular.toJson(accountnumber);
+                   det=btoa(det);
+             $location.path('/accountstatement/'+det);
+         }   
                  
                  
 });
@@ -101,6 +135,16 @@ CustomerMngt.config(function($routeProvider,$locationProvider)	{
 $locationProvider.hashPrefix("!");
 
   $routeProvider
+   .when('/home', {
+     templateUrl: 'views/customer/home.html',   
+      controller: 'homectrl' 
+        })
+    .when('/feedback', {
+     templateUrl: 'views/customer/feedback.html',   
+      controller: 'feedbackctrl' 
+        })     
+                           
+    
 	 
  .when('/profile', {
      templateUrl: 'views/customer/profile.html',   
@@ -110,10 +154,19 @@ $locationProvider.hashPrefix("!");
      templateUrl: 'views/customer/account.html',   
       controller: 'accountctrl' 
         }) 
+  .when('/changePassword', {
+     templateUrl: 'views/common/changepassword.html',   
+      controller: 'changepasswordctrl' 
+        })       
     .when('/agentdetails/:agentcode', {
      templateUrl: 'views/customer/agentdetails.html',   
       controller: 'agentdetailsctrl' 
-        })      
+        }) 
+        
+     .when('/accountstatement/:accountnumber', {
+     templateUrl: 'views/customer/accountstatement.html',   
+      controller: 'accountstatementctrl' 
+        })       
     .otherwise({
          redirectTo: '/profile'
       });
@@ -136,7 +189,9 @@ CustomerMngt.factory('customerFactory', ['$http',function($http) {
             getAgentDetails:function (agentnumber) {
 		     return $http.get('/Web/rest/agent/agentdetails/'+agentnumber);
             },
-            
+            getAccountTransaction:function (accountnumber) {
+		     return $http.get('/Web/rest/transaction/account/'+accountnumber);
+            },
             
           
             logout:function () {
