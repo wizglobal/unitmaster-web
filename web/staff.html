@@ -1,16 +1,84 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>Staff</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>     <div><h1>Under Construction </h1></div></div>
-    </body>
+
+  <head>
+    <meta charset="utf-8">
+    <title>Agent </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+           <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
+	   <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css" />
+           <link rel="stylesheet" href="styles/staff/staff.css">
+  
+  </head>
+  <body ng-app="StaffApp">
+
+
+   <div class="container-fluid">
+             <header class="navbar navbar-inverse navbar-fixed-top" role="banner">
+              
+                  <div class="navbar-header">
+                       <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                      <a class="navbar-brand" href="#">
+                       <span class="glyphicon glyphicon-home"></span>
+                       <strong>Wizglobal Agent </strong>
+                      </a>
+                 </div>
+                 <div data-ng-controller="Mainctrl">
+                    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                      <ul class="nav navbar-nav navbar-right">
+                             
+                         
+                        <li ><a href="#!/help"><i class="fa fa-question fa-fw"></i> Help</a></li>
+                        <li ><a href="#!/about">About</a></li>
+                        <li> <a href="#!/onlineCustomer" >Online Customers</a></li>
+                        <li>  <a href="#!/profile" >Your Profile</a></li>
+                       
+                        <li class="divider"></li>
+                        <li><a type="button"  ng-click="Logout()">Logout</a></li>
+                     </ul>
+                      </nav>
+             </div>
+          
+
+        </header>
+       
+        
+</div>
+      
+   <div class="container">
+          <div class="row">
+          
+           <div class="col-md-12 col-sm-12" data-ng-view >
+           </div>
+       
+          
+          
+      </div>
+      </div>
+
+
+
+
+   <div class="navbar navbar-default navbar-fixed-bottom">
+                 <div class="container" >
+                   <p>copyrights @Wizglobal 2015 </p>                     
+          </div>
+
+
+    <script src="lib/jquery/jquery-2.1.4.min.js"></script>
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="lib/angular/angular-route/angular-route.min.js"></script>
+  
+        <script src="scripts/staff/staff.js"></script>
+      
+
+   
+</body>
 </html>

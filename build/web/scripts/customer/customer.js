@@ -168,7 +168,7 @@ $locationProvider.hashPrefix("!");
       controller: 'accountstatementctrl' 
         })       
     .otherwise({
-         redirectTo: '/profile'
+         redirectTo: '/home'
       });
 
 });

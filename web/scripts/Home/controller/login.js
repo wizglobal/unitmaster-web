@@ -11,13 +11,14 @@ var LoginMngt= angular.module('WizglobalAppLogin', [] );
 				 		 .success(function(data) {
 								     $scope.invalidcredential=false;
 									 $window.sessionStorage.token = data.token;
-                                                                        if (data.category==="customer"){
-								            $window.location.href="/Web/customer.html";
-                                                                         }else if (data.category==="staff"){$window.location.href="/Web/staff.html";}
-                                                                         else{$window.location.href="/Web/agent.html";}
+                                                                        if (data.category==="customer"){$window.location.href="/Web/customer.html";}
+                                                                        else if (data.category==="staff"){$window.location.href="/Web/staff.html";}
+                                                                         else if (data.category==="agent"){$window.location.href="/Web/agent.html";}
+                                                                         else {$window.location.href="/Web/Error.html";}
 									   
 							 }) 
 						 .error(function(data) {
+                                                 
 							   $scope.invalidcredential=true;
 							    $scope.showSpinner=false;
 							    delete $window.sessionStorage.token;
