@@ -12,6 +12,8 @@ package com.wizglobal.helpers;
 public class tokendetails {
     private String username;
     private String category;
+    private String refno;
+    private String memberno;
 
     /**
      * @return the username
@@ -39,6 +41,34 @@ public class tokendetails {
      */
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    /**
+     * @return the refno
+     */
+    public String getRefno() {
+        return refno;
+    }
+
+    /**
+     * @param refno the refno to set
+     */
+    public void setRefno(String refno) {
+        this.refno = refno;
+    }
+
+    /**
+     * @return the memberno
+     */
+    public String getMemberno() {
+        return memberno;
+    }
+
+    /**
+     * @param memberno the memberno to set
+     */
+    public void setMemberno(String memberno) {
+        this.memberno = memberno;
     }
     
 }

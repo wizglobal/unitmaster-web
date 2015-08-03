@@ -33,7 +33,7 @@ public class LoginOperation {
            String tk=logservice.Authenticate(userCredentials.getUsername(), userCredentials.getPassword());
            if (tk!=null){
            
-       
+            System.out.println(tk);
             rtn=   tk;       
            }else {
                throw new  AppException(Response.Status.FORBIDDEN.getStatusCode(), 401, 

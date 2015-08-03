@@ -40,6 +40,7 @@ public class LoginService {
                  JSONObject obj = new JSONObject();  
                    obj.put("username", username);
                    obj.put("category",memberpass.getCategory());
+                   obj.put("memberno",memberpass.getMemberno());
                         // user Authenticated create token
                     String token =logintoken.createJWT(memberpass.getMemberno(),AppConstants.Token_issuer, obj.toString(), AppConstants.Token_ttl);
                     obj.put("token", token);

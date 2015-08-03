@@ -61,13 +61,10 @@ Claims claims = Jwts.parser()
    .setSigningKey(DatatypeConverter.parseBase64Binary(AppConstants.API_KEY))
    .parseClaimsJws(jwt).getBody();
   
-      
-System.out.println("ID: " + claims.getId());
-System.out.println("Subject: " + claims.getSubject());
 JSONObject jsonObject = new JSONObject(claims.getSubject());
             tkn.setUsername((String) jsonObject.get("username"));
             tkn.setCategory((String) jsonObject.get("category"));
-System.out.println("Issuer: " + claims.getIssuer());
+            tkn.setMemberno((String) jsonObject.get("memberno"));
 System.out.println("Expiration: " + claims.getExpiration());
 return tkn;
 }

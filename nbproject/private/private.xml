@@ -3,28 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/service/LoginService.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/views/customer/feedback.html</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/scripts/Home/controller/login.js</file>
+            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/service/AgentService.java</file>
             <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/agent.html</file>
             <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/views/customer/agentdetails.html</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/service/FeedbackService.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/views/customer/home.html</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/endpoint/LoginOperation.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/views/customer/profile.html</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/endpoint/AccountOperations.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/service/TransactionService.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/endpoint/TransactionOperation.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/customer.html</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/views/common/changepassword.html</file>
             <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/scripts/customer/customer.js</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/endpoint/FeedbackOperation.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/endpoint/MemberOperations.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/styles/agent/agent.css</file>
+            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/endpoint/LoginOperation.java</file>
             <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/scripts/agent/agent.js</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/service/AccountService.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/service/MemberService.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/views/customer/account.html</file>
+            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/endpoint/AccountOperations.java</file>
             <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/endpoint/AgentOperation.java</file>
         </group>
     </open-files>

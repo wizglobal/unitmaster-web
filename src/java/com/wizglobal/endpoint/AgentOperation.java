@@ -2,16 +2,20 @@
 package com.wizglobal.endpoint;
 
 import com.wizglobal.ExceptionHandling.AppException;
+import com.wizglobal.Helpers.AgentAccountList;
 import com.wizglobal.config.AppConstants;
 import com.wizglobal.entities.Accounts;
 import com.wizglobal.entities.Agents;
 import com.wizglobal.service.AccountService;
 import com.wizglobal.service.AgentService;
+import java.util.ArrayList;
+import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -21,19 +25,41 @@ public class AgentOperation {
     
     
      @GET
-    @Path("agentdetails/{agentnumber}")
+    @Path("customerList")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-  public Agents getAccount(@Context HttpHeaders headers,@PathParam("agentnumber") String agentnumber)  throws AppException{
+  public Response  getCustomerDetails(@Context HttpHeaders headers)  throws AppException{
      String token =headers.getRequestHeader("token").get(0);
      AgentService  agent = new  AgentService ();
       try {
-          return agent.getAgent(agentnumber, token);
+         List<AgentAccountList> AAL;
+         GenericEntity< List< AgentAccountList> > entity;
+         entity  = new GenericEntity< List< AgentAccountList> >(agent.getCustomerList(token) ) { };
+         
+        return  Response.ok( entity ).build();
+          
       }catch(Exception ex){
           throw new  AppException(Response.Status.CONFLICT.getStatusCode(), 500, 
 					ex.toString(), AppConstants.BLOG_POST_URL);
       }
     
   }
+    @GET
+    @Path("agentdetails")
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+  public Agents getAccount(@Context HttpHeaders headers)  throws AppException{
+     String token =headers.getRequestHeader("token").get(0);
+     
+     System.out.println(token);
+     AgentService  agent = new  AgentService ();
+      try {
+          return agent.getAgent(token);
+      }catch(Exception ex){
+          throw new  AppException(Response.Status.CONFLICT.getStatusCode(), 500, 
+					ex.toString(), AppConstants.BLOG_POST_URL);
+      }
+    
+  }
+
 
     
 }
