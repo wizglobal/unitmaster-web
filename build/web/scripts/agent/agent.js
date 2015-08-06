@@ -1,4 +1,4 @@
-var AgentMngt= angular.module('AgentApp', ['ngRoute'] ); 
+var AgentMngt= angular.module('AgentApp', ['ngRoute','angularUtils.directives.dirPagination'] ); 
 
 
 	AgentMngt.factory('authInterceptor', function ($rootScope, $q, $window) {
@@ -32,25 +32,50 @@ var AgentMngt= angular.module('AgentApp', ['ngRoute'] );
 AgentMngt.controller('Mainctrl', function ($scope,$window,agentFactory) {
 
 });
-AgentMngt.controller('profilectrl', function ($scope,$window,profile) {
+AgentMngt.controller('homectrl', function ($scope,$window,profile,customerList,agentSrv) {
     $scope.profile=profile.data;
+    $scope.customerList=customerList.data
+    agentSrv.setCustomerDetails(customerList.data);
+    
+    
+    
 });
-AgentMngt.controller('customerListctrl', function ($scope,$window,agentFactory) {
+AgentMngt.controller('viewCustomerctrl', function ($scope,$window,agentFactory) {
+    
+});
+AgentMngt.controller('detailedstatementctrl', function ($scope,$window,agentFactory) {
+    
+});
+AgentMngt.controller('statementctrl', function ($scope,$window,agentFactory) {
+    
+});
+AgentMngt.controller('feedbackctrl', function ($scope,$window,agentFactory) {
+    
+});
+AgentMngt.controller('profilectrl', function ($scope,$window,agentFactory) {
+    
+});
+AgentMngt.controller('customerFeedbackctrl', function ($scope,$window,agentFactory) {
     
 });
 
 
 AgentMngt.factory('agentFactory', ['$http',function($http) {
  var data = {
-        getAgentDetails:function (agentnumber) {
-		     return $http.get('/Web/rest/agent/agentdetails');
+        getAgentDetails:function () {
+		     return $http.get('/Web/rest/agent/agentdetails',{ cache: true });
             },
+         customerList :function () {
+		     return $http.get('/Web/rest/agent/customerList',{ cache: true });
+            },  
+            
             }
 	return data;
 }]);
-AgentMngt.service('agentDetails', function () {
+AgentMngt.service('agentSrv', function () {
 
     var data={} ;
+    var CustomerData=[];
     this.set = function (agentDetails) {
 		   data=agentDetails;
 
@@ -60,6 +85,12 @@ AgentMngt.service('agentDetails', function () {
     this.get = function () {  
          return data;
        } 
+     this.setCustomerDetails=function(customerDetails){
+        CustomerData= customerDetails;
+     } 
+     this.getCustomerDetails=function(){
+         return CustomerData;
+     }
   
 });
 
@@ -68,21 +99,46 @@ AgentMngt.config(function($routeProvider,$locationProvider)	{
 $locationProvider.hashPrefix("!");
 
   $routeProvider
-   .when('/profile', {
-     templateUrl: 'views/agent/profile.html',   
-      controller: 'profilectrl' ,
+   .when('/home', {
+     templateUrl: 'views/agent/home.html',   
+      controller: 'homectrl' ,
       resolve: {		
             profile: function(agentFactory) {
 				return agentFactory.getAgentDetails();
 			},
+            customerList: function(agentFactory) {
+				return agentFactory.customerList();
+			}            
 	       }
         })
-    .when('/customerList', {
+    .when('/Viewcustomer/:memberno', {
      templateUrl: 'views/agent/customers.html',   
-      controller: 'customerListctrl' 
-        })           
+      controller: 'viewCustomerctrl' 
+        })
+    .when('/profile', {
+     templateUrl: 'views/agent/profile.html',   
+      controller: 'profilectrl' 
+        })
+    .when('/DetailsStatement', {
+     templateUrl: 'views/agent/DetailedStatement.html',   
+      controller: 'detailedstatementctrl' 
+        })     
+    .when('/statement', {
+     templateUrl: 'views/agent/Statement.html',   
+      controller: 'statementctrl' 
+        })
+   .when('/customerFeedback', {
+     templateUrl: 'views/agent/customerFeedback.html',   
+      controller: 'customerFeedbackctrl' 
+        })
+           
+        
+    .when('/feedback', {
+     templateUrl: 'views/agent/feedBack.html',   
+      controller: 'feedbackctrl' 
+        })     
     .otherwise({
-         redirectTo: '/profile'
+         redirectTo: '/home'
       });
 
 });

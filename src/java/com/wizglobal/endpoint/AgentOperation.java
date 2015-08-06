@@ -27,15 +27,13 @@ public class AgentOperation {
      @GET
     @Path("customerList")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-  public Response  getCustomerDetails(@Context HttpHeaders headers)  throws AppException{
+  public List<AgentAccountList>  getCustomerDetails(@Context HttpHeaders headers)  throws AppException{
      String token =headers.getRequestHeader("token").get(0);
      AgentService  agent = new  AgentService ();
       try {
-         List<AgentAccountList> AAL;
-         GenericEntity< List< AgentAccountList> > entity;
-         entity  = new GenericEntity< List< AgentAccountList> >(agent.getCustomerList(token) ) { };
+      
          
-        return  Response.ok( entity ).build();
+        return  agent.getCustomerList(token);
           
       }catch(Exception ex){
           throw new  AppException(Response.Status.CONFLICT.getStatusCode(), 500, 

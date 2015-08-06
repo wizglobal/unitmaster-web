@@ -41,8 +41,9 @@ public class LoginOperation {
       
         }
      }catch (Exception exp){
+         System.err.print(exp);
          throw new  AppException(Response.Status.FORBIDDEN.getStatusCode(), 500, 
-					"Invalid Credential Passed or Server Error Conatct Admin", AppConstants.BLOG_POST_URL);
+					exp.toString(), AppConstants.BLOG_POST_URL);
      }     
            
         return rtn;

@@ -29,14 +29,13 @@ public class LoginService {
    
    
    public String Authenticate(String username,String password){
-       String status =null;
+       
+       String status ="";
        membercontroller = new MemberpassJpaController();
        checksum = new MD5Checksum();
         logintoken = new LoginToken();
           memberpass =  membercontroller.findMemberDetails(username);
-      
              if (checksum.Checkhash("09d90c0c39cf41624aa62f142e82cecf", password)){
-               System.out.println("The User Category is " + memberpass.getCategory());
                  JSONObject obj = new JSONObject();  
                    obj.put("username", username);
                    obj.put("category",memberpass.getCategory());
