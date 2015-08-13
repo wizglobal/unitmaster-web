@@ -30,6 +30,17 @@ var AgentMngt= angular.module('AgentApp', ['ngRoute','angularUtils.directives.di
     });
 
 AgentMngt.controller('Mainctrl', function ($scope,$window,agentFactory) {
+         $scope.Logout=function(){
+            agentFactory.logout()
+              .success(function(data) {
+			    	delete $window.sessionStorage.token;
+					$window.location.href = "index.html";
+					}) 
+				 .error(function(data) {
+				   delete $window.sessionStorage.token;
+					$window.location.href = "index.html";
+					});
+                                    }
 
 });
 AgentMngt.controller('homectrl', function ($scope,$window,profile,customerList,agentSrv) {
@@ -45,17 +56,63 @@ AgentMngt.controller('viewCustomerctrl', function ($scope,$window,agentFactory) 
 });
 AgentMngt.controller('detailedstatementctrl', function ($scope,$window,agentFactory) {
     
+           agentFactory.getDetailedTransactions()
+                         .success(function(data) {
+                        
+			    	$scope.transactions=data;
+                           console.log(data);
+					}) 
+				 .error(function(data) {
+                                  
+				  $scope.transactions=[];
+					});
+    
 });
 AgentMngt.controller('statementctrl', function ($scope,$window,agentFactory) {
+   
+                     agentFactory.getTransactions()
+                         .success(function(data) {
+                        
+			    	$scope.transactions=data;
+                           
+					}) 
+				 .error(function(data) {
+                                  
+				  $scope.transactions=[];
+					});
+                                    
     
 });
 AgentMngt.controller('feedbackctrl', function ($scope,$window,agentFactory) {
     
 });
 AgentMngt.controller('profilectrl', function ($scope,$window,agentFactory) {
+                         agentFactory.getAgentDetails()
+                         .success(function(data) {
+                        
+			    	$scope.profile=data;
+                           console.log(data);
+					}) 
+				 .error(function(data) {
+                                  
+				  $scope.profile=[];
+					});
     
 });
-AgentMngt.controller('customerFeedbackctrl', function ($scope,$window,agentFactory) {
+AgentMngt.controller('Feedbackctrl', function ($scope,$window,agentFactory) {
+    
+});
+AgentMngt.controller('changepasswordctrl', function ($scope,$window,agentFactory) {
+    
+});
+
+AgentMngt.controller('aboutctrl', function ($scope,$window) {
+    
+});
+AgentMngt.controller('helpctrl', function ($scope,$window) {
+    
+});
+AgentMngt.controller('sendfeedbackctrl', function ($scope,$window) {
     
 });
 
@@ -68,10 +125,20 @@ AgentMngt.factory('agentFactory', ['$http',function($http) {
          customerList :function () {
 		     return $http.get('/Web/rest/agent/customerList',{ cache: true });
             },  
-            
+         logout:function () {
+		     return $http.get('/web/logout');
+            }, 
+           getTransactions:function () {
+		     return $http.get('/Web/rest/agent/agenttransactions',{ cache: true });
+            }, 
+          getDetailedTransactions:function () {
+		     return $http.get('/Web/rest/agent/agentdetailedtransactions',{ cache: true });
+            }, 
             }
 	return data;
 }]);
+
+
 AgentMngt.service('agentSrv', function () {
 
     var data={} ;
@@ -131,12 +198,28 @@ $locationProvider.hashPrefix("!");
      templateUrl: 'views/agent/customerFeedback.html',   
       controller: 'customerFeedbackctrl' 
         })
-           
+    .when('/changePassword', {
+     templateUrl: 'views/common/changepassword.html',   
+      controller: 'changepasswordctrl' 
+        })       
+      .when('/about', {
+     templateUrl: 'views/common/about.html',   
+      controller: 'aboutctrl' 
+        })       
         
+    .when('/help', {
+     templateUrl: 'views/common/help.html',   
+      controller: 'helpctrl' 
+        })       
     .when('/feedback', {
-     templateUrl: 'views/agent/feedBack.html',   
-      controller: 'feedbackctrl' 
+     templateUrl: 'views/common/feedback.html',   
+      controller: 'Feedbackctrl' 
+        })
+     .when('/Sendfeedback', {
+     templateUrl: 'views/common/sendFeedback.html',   
+      controller: 'sendfeedbackctrl' 
         })     
+        
     .otherwise({
          redirectTo: '/home'
       });

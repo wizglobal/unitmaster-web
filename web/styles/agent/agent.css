@@ -11,6 +11,50 @@ body {
     margin-left: 5px;
 }
 
+.custom-panel {
+  margin-bottom: 17px;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+}
+.panel-custom-body {
+  padding: 13px;
+}
+.panel-custom-heading {
+  padding: 7px 12px;
+  border-bottom: 1px solid transparent;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+.panel-heading > .dropdown .dropdown-toggle {
+  color: inherit;
+}
+.panel-custom-title {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 12px;
+  color: inherit;
+}
+
+.panel-custom-primary {
+  border-color: #337ab7;
+}
+.panel-custom-primary > .panel-custom-heading {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #337ab7;
+}
+.panel-custom-primary > .panel-custom-heading + .panel-collapse > .panel-custom-body {
+  border-top-color: #337ab7;
+}
+.panel-custom-primary > .panel-custom-heading .badge {
+  color: #337ab7;
+  background-color: #fff;
+}
+
+
 th {
     cursor:pointer;
 }

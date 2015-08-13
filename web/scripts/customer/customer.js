@@ -44,13 +44,30 @@ CustomerMngt.controller('Mainctrl', function ($scope,$window,customerFactory) {
 CustomerMngt.controller('accountctrl', function ($scope,$window,customerFactory) {
     
 });
-CustomerMngt.controller('changepasswordctrl', function ($scope,$window,customerFactory) {
+
+
+CustomerMngt.controller('profilectrl', function ($scope,$window, CustomerDetails, bankdetails) {
+        
+    $scope.bankdetails=bankdetails.data[0];
+    $scope.profile=CustomerDetails.get();
+    
     
 });
-CustomerMngt.controller('feedbackctrl', function ($scope,$window,customerFactory) {
+
+CustomerMngt.controller('Feedbackctrl', function ($scope,$window) {
     
 });
-CustomerMngt.controller('profilectrl', function ($scope,$window,customerFactory) {
+CustomerMngt.controller('changepasswordctrl', function ($scope,$window) {
+    
+});
+
+CustomerMngt.controller('aboutctrl', function ($scope,$window) {
+    
+});
+CustomerMngt.controller('helpctrl', function ($scope,$window) {
+    
+});
+CustomerMngt.controller('sendfeedbackctrl', function ($scope,$window) {
     
 });
 
@@ -100,7 +117,7 @@ CustomerMngt.controller('homectrl', function ($scope,$window,customerFactory,Cus
                                    customerFactory.getCustomerAccounts()
 						 .success(function(data) {
 							$scope.memberaccounts=data;
-                                                console.log(data);
+                                              
 							 }) 
 						 .error(function(data) {
 							accounts=[];	
@@ -109,7 +126,6 @@ CustomerMngt.controller('homectrl', function ($scope,$window,customerFactory,Cus
                                customerFactory.getCustomerBeneficiaries()
 						 .success(function(data) {
 							$scope.memberbeneficiaries=data;
-                                                console.log(data);
 							 }) 
 						 .error(function(data) {
 							accounts=[];	
@@ -138,26 +154,31 @@ $locationProvider.hashPrefix("!");
    .when('/home', {
      templateUrl: 'views/customer/home.html',   
       controller: 'homectrl' 
-        })
-    .when('/feedback', {
-     templateUrl: 'views/customer/feedback.html',   
-      controller: 'feedbackctrl' 
-        })     
-                           
-    
-	 
+        })                     
+     
  .when('/profile', {
      templateUrl: 'views/customer/profile.html',   
-      controller: 'profilectrl' 
-        })	   
+      controller: 'profilectrl',
+      resolve: {		
+            bankdetails: function(customerFactory) {
+				return customerFactory.getCustomerBankDetails();
+			}            
+	       }
+        })
+        	   
   .when('/account', {
      templateUrl: 'views/customer/account.html',   
       controller: 'accountctrl' 
         }) 
-  .when('/changePassword', {
+     .when('/changePassword', {
      templateUrl: 'views/common/changepassword.html',   
       controller: 'changepasswordctrl' 
         })       
+        
+    .when('/feedback', {
+     templateUrl: 'views/common/feedback.html',   
+      controller: 'Feedbackctrl' 
+        })           
     .when('/agentdetails/:agentcode', {
      templateUrl: 'views/customer/agentdetails.html',   
       controller: 'agentdetailsctrl' 
@@ -166,7 +187,20 @@ $locationProvider.hashPrefix("!");
      .when('/accountstatement/:accountnumber', {
      templateUrl: 'views/customer/accountstatement.html',   
       controller: 'accountstatementctrl' 
+        })
+     .when('/about', {
+     templateUrl: 'views/common/about.html',   
+      controller: 'aboutctrl' 
         })       
+        
+    .when('/help', {
+     templateUrl: 'views/common/help.html',   
+      controller: 'helpctrl' 
+        })       
+    .when('/Sendfeedback', {
+     templateUrl: 'views/common/sendFeedback.html',   
+      controller: 'sendfeedbackctrl' 
+        })    
     .otherwise({
          redirectTo: '/home'
       });
@@ -191,6 +225,9 @@ CustomerMngt.factory('customerFactory', ['$http',function($http) {
             },
             getAccountTransaction:function (accountnumber) {
 		     return $http.get('/Web/rest/transaction/account/'+accountnumber);
+            },
+           getCustomerBankDetails:function () {
+		     return $http.get('/Web/rest/member/Bankdetails',{ cache: true });
             },
             
           

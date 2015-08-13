@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">THESE RATES HAVE NOT BEEN CONFIRMED..</h3>
+     <div class="pull-right">Search :<input type="text" ng-model="names"></div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="panel-body">
+      
+     <table class="table table-hover table-condensed table-responsive">
+    <thead>
+      <tr>
+        <th>RATE ID</th>
+        <th>RATE DATE</th>
+        <th>SECURITY NAME</th>
+        <th>RATE</th>
+         <th>POSTED BY</th>
+         <th>CONFIRM</th>
+  
+      </tr>
+    </thead>
+    <tbody>
+      <tr dir-paginate="int in Interests  | filter :names |  itemsPerPage:4 ">
+                     <td>{{ tran.transId}}</td>
+                    <td>{{ tran.transType }} </td>
+                      <td>{{ tran.transDate }}</td>
+                    <td>{{ tran.memberNo }}  </td>
+                     <td>{{ tran.memberNo }}  </td>
+                    <td><button class="btn btn-danger" >Confirm. </a></td>   
+                      
+                  </tr>
+    </tbody>
+  </table>
+        <dir-pagination-controls   max-size="4"  direction-links="true"  boundary-links="true" >  </dir-pagination-controls>
+  </div>
+</div>
+    

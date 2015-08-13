@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">THESE MEMBERS OF STAFF HAVE NOT BEEN REGISTERED TO USE THE ONLINE SYSTEM.</h3>
+     <div class="pull-right">Search :<input type="text" ng-model="names"></div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="panel-body">
+      
+     <table class="table table-hover table-condensed table-responsive">
+    <thead>
+      <tr>
+        <th>USER ID</th>
+        <th>USERNAME</th>
+        <th>FULL NAMES</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr dir-paginate="staff in staffs | filter :names | orderBy:'userId' | itemsPerPage:4 ">
+                     <td>{{ staff.userId }}</td>
+                    <td>{{ staff.username }} </td>
+                      <td>{{ staff.surname}}</td>   
+                      <td><a class="btn btn-danger ">Register</a></td> 
+                  </tr>
+    </tbody>
+  </table>
+        <dir-pagination-controls   max-size="4"  direction-links="true"  boundary-links="true" >  </dir-pagination-controls>
+  </div>
+</div>
+    

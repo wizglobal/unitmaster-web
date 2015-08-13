@@ -10,6 +10,7 @@ import com.wizglobal.Helpers.customerAccounts;
 import com.wizglobal.config.AppConstants;
 import com.wizglobal.entities.Accounts;
 import com.wizglobal.entities.Members;
+import com.wizglobal.entities.Membersbankdetails;
 import com.wizglobal.service.AccountService;
 import com.wizglobal.service.MemberService;
 import java.util.List;
@@ -65,4 +66,23 @@ public class MemberOperations {
      }
     return cacc;
    }
+   
+    @GET
+    @Path("Bankdetails")
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+   public List<Membersbankdetails> getBankDetails(@Context HttpHeaders headers) throws AppException  {
+       memService = new  MemberService();
+     try {
+       String token =headers.getRequestHeader("token").get(0);      
+     return memService.getMemberBankDetails(token);
+     }
+     catch (Exception ex){
+         System.out.println(ex);
+         throw new  AppException(Response.Status.CONFLICT.getStatusCode(), 500, 
+					ex.toString(), AppConstants.BLOG_POST_URL);
+     }
+    
+   }
+   
+   
 }

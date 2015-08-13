@@ -65,6 +65,7 @@ JSONObject jsonObject = new JSONObject(claims.getSubject());
             tkn.setUsername((String) jsonObject.get("username"));
             tkn.setCategory((String) jsonObject.get("category"));
             tkn.setMemberno((String) jsonObject.get("memberno"));
+            tkn.setRefno((String) jsonObject.get("refnum"));
 System.out.println("Expiration: " + claims.getExpiration());
 return tkn;
 }

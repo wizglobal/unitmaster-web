@@ -7,8 +7,12 @@ package com.wizglobal.service;
 
 import com.wizglobal.Controller.AccountsJpaController;
 import com.wizglobal.Controller.AgentsJpaController;
+import com.wizglobal.Controller.TransAgentCommJpaController;
+import com.wizglobal.Controller.TransAgentJpaController;
 import com.wizglobal.Helpers.AgentAccountList;
 import com.wizglobal.entities.Agents;
+import com.wizglobal.entities.TransAgent;
+import com.wizglobal.entities.TransAgentComm;
 import com.wizglobal.helpers.tokendetails;
 import com.wizglobal.security.LoginToken;
 import java.util.ArrayList;
@@ -20,6 +24,8 @@ import java.util.List;
  */
 public class AgentService {
   AgentsJpaController agentsJpaController  ;
+  TransAgentJpaController transAgentJpaController;
+  TransAgentCommJpaController transAgentCommJpaController;
   AccountsJpaController Accctrl;
     LoginToken loginToken;
     tokendetails tkn;
@@ -62,6 +68,19 @@ public class AgentService {
          
          return  ki;
   }
-  
+  public List<TransAgent> agentTransactions(String token){
+       transAgentJpaController= new TransAgentJpaController();
+       loginToken= new LoginToken();     
+       tkn=loginToken.parseJWT(token);
+       System.out.println("Ref number "+tkn.getRefno());
+       return transAgentJpaController.findAgentTrxnByAgentcode(tkn.getRefno());
+  }
+  public List<TransAgentComm> agentDetailedTransactions(String token){
+       transAgentCommJpaController= new TransAgentCommJpaController();
+       loginToken= new LoginToken();     
+       tkn=loginToken.parseJWT(token);
+       System.out.println("Ref number "+tkn.getRefno());
+       return transAgentCommJpaController.findAgentDetailedTransactions(tkn.getMemberno());
+  }
   
 }

@@ -6,6 +6,8 @@ import com.wizglobal.Helpers.AgentAccountList;
 import com.wizglobal.config.AppConstants;
 import com.wizglobal.entities.Accounts;
 import com.wizglobal.entities.Agents;
+import com.wizglobal.entities.TransAgent;
+import com.wizglobal.entities.TransAgentComm;
 import com.wizglobal.service.AccountService;
 import com.wizglobal.service.AgentService;
 import java.util.ArrayList;
@@ -57,7 +59,35 @@ public class AgentOperation {
       }
     
   }
-
-
+    @GET
+    @Path("agenttransactions")
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+   public List<TransAgent> getTransactions(@Context HttpHeaders headers)  throws AppException{
+       String token =headers.getRequestHeader("token").get(0);
+     
+ 
+     AgentService  agent = new  AgentService ();
+      try {
+          return agent.agentTransactions(token);
+      }catch(Exception ex){
+          throw new  AppException(Response.Status.CONFLICT.getStatusCode(), 500, 
+					ex.toString(), AppConstants.BLOG_POST_URL);
+      }
+   }
+     @GET
+    @Path("agentdetailedtransactions")
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public List<TransAgentComm> getDetailedTransactions(@Context HttpHeaders headers)  throws AppException{
+         String token =headers.getRequestHeader("token").get(0);
+     
+ 
+     AgentService  agent = new  AgentService ();
+      try {
+          return agent.agentDetailedTransactions(token);
+      }catch(Exception ex){
+          throw new  AppException(Response.Status.CONFLICT.getStatusCode(), 500, 
+					ex.toString(), AppConstants.BLOG_POST_URL);
+      }
+    }
     
 }

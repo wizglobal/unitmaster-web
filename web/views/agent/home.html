@@ -1,28 +1,31 @@
 <div class="row">
-    <div class="panel panel-warning">
+    <div class="panel panel-info">
         <div class="panel-heading">
-          <h3 class="panel-title">YOUR DETAILS</h3>
+          <h3 class="panel-title">Your Details</h3>
         </div>
      <div class="panel-body">
-        <div class="col-md-6">
+        
             <p class="text-capitalize">AGENT NAME  {{profile.agentName}}</p>
             <p class="text-capitalize">REGISTRATION DATE  {{profile.regDate}}</p>
             <p class="text-capitalize">CONFIRMATION DATE  {{profile.confirmeddate}}</p>
            
-      </div>  
+      
      
      </div>
     </div>
     
 </div>
 <div class="row">
-    <div class="panel panel-warning">
+    <div class="panel panel-info">
         <div class="panel-heading">
-          <h3 class="panel-title">YOUR CUSTOMERS</h3>
+          <div class="panel-title">Your Customers</div>
+           <button class="btn btn-warning btn-primary pull-right" ng-click="generatepdf()">Download Pdf</button>
+        <div class="clearfix"></div>
         </div>
   
         <div class="panel-body">
-            <div class=" ">Search :<input type="text" ng-model="names"></div>
+            <div class="pull-right"> <input placeholder="Search" class="input-sm" type="text" ng-model="names"></div>  
+            
      <table class="table table-hover table-condensed table-responsive">
     <thead>
       <tr>
@@ -38,7 +41,7 @@
       </tr>
     </thead>
     <tbody>
-    <tr  dir-paginate="custlist in customerList | filter :names  |itemsPerPage:5">
+    <tr  dir-paginate="custlist in customerList | filter :names  | itemsPerPage:4">
                      <td>{{custlist.TITLE }} {{custlist.ALLNAMES}}</td>
                     <td><a>{{ custlist.MEMBER_NO }}</a></td>
                     <td >{{ custlist.PHYS_ADDRESS}}</td>
@@ -50,7 +53,7 @@
     </tbody>
   </table>
             
-    <dir-pagination-controls   max-size="5"  direction-links="true"  boundary-links="true" >  </dir-pagination-controls>
+    <dir-pagination-controls   max-size="4"  direction-links="true"  boundary-links="true" >  </dir-pagination-controls>
   </div>
      
      </div>

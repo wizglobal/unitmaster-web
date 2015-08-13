@@ -38,8 +38,9 @@ public class LoginService {
              if (checksum.Checkhash("09d90c0c39cf41624aa62f142e82cecf", password)){
                  JSONObject obj = new JSONObject();  
                    obj.put("username", username);
+                   obj.put("refnum", memberpass.getRefno());
                    obj.put("category",memberpass.getCategory());
-                   obj.put("memberno",memberpass.getMemberno());
+                   obj.put("memberno",memberpass.getRefno());
                         // user Authenticated create token
                     String token =logintoken.createJWT(memberpass.getMemberno(),AppConstants.Token_issuer, obj.toString(), AppConstants.Token_ttl);
                     obj.put("token", token);
