@@ -12,6 +12,7 @@ import com.wizglobal.Controller.MembersJpaController;
 import com.wizglobal.Controller.NavsJpaController;
 import com.wizglobal.Controller.TransJpaController;
 import com.wizglobal.Controller.UsersetupJpaController;
+import com.wizglobal.ExceptionHandling.usernameExistsException;
 import com.wizglobal.entities.Agents;
 import com.wizglobal.entities.IRates;
 import com.wizglobal.entities.Memberpass;
@@ -19,9 +20,11 @@ import com.wizglobal.entities.Members;
 import com.wizglobal.entities.Navs;
 import com.wizglobal.entities.Trans;
 import com.wizglobal.entities.Usersetup;
+import com.wizglobal.entities.Userdetails;
 import com.wizglobal.helpers.tokendetails;
 import com.wizglobal.security.LoginToken;
 import java.util.List;
+import org.json.JSONObject;
 
 
 public class StaffService {
@@ -83,5 +86,44 @@ public class StaffService {
                 tkn=loginToken.parseJWT(token); 
         return iRatesJpaController.ListUnconfirmedRates(tkn.getUsername());
     }
+    public String RegisterAgent(Userdetails userdetails){
+        JSONObject obj = new JSONObject();  
+        Memberpass mp = new Memberpass();
+          StaffService ss = new StaffService();
+           
+           try {
+                 mp.setCategory("agent");
+                 mp.setEMail(userdetails.getEMail());
+                 mp.setRefno(userdetails.getRefno());
+                 mp.setUsername(userdetails.getUsername());
+                 mp.setPasswrd(userdetails.getPasswrd());
+                
+                 int status =ss.RegisterUser(mp);
+                 
+                 obj.put("status", status);
+                 obj.put("msg", "Agent Created");
+               
+           }catch (Exception ex){
+               obj.put("status", 2);
+               obj.put("msg", "Error Occurred");
+               obj.put("Exception", "The Username Exists ");
+               ex.printStackTrace();
+               
+               
+           }
+        
+        return obj.toString();
+    }
     
+    private int RegisterUser (Memberpass memberpass) throws usernameExistsException{
+        membercontroller = new MemberpassJpaController();
+        try {
+            membercontroller.create(memberpass);
+            return 1;
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new usernameExistsException(" Username Already Exists");
+        }
+        
+    }
 }

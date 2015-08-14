@@ -15,11 +15,16 @@ import com.wizglobal.entities.Members;
 import com.wizglobal.entities.Membersbankdetails;
 import com.wizglobal.entities.Navs;
 import com.wizglobal.entities.Trans;
+import com.wizglobal.entities.Userdetails;
 import com.wizglobal.entities.Usersetup;
+import com.wizglobal.helpers.credentials;
+import com.wizglobal.service.LoginService;
 import com.wizglobal.service.MemberService;
 import com.wizglobal.service.StaffService;
 import java.util.List;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
@@ -176,5 +181,35 @@ public class StaffOperations {
      }
     
    }
+   
+    @POST
+    @Path("/RegisterUsers")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String  registerAgent(Userdetails userdetails ,@Context HttpHeaders headers) throws AppException  {
+       Staffservice = new StaffService();
+       
+     try {  
+          String token =headers.getRequestHeader("token").get(0); 
+            if ( userdetails.getUsername() !=null || userdetails.getRefno() !=null){  
+                System.out.println("Useranme "+userdetails.getUsername());
+                System.out.println("email "+userdetails.getEMail());
+                System.out.println("number "+userdetails.getNumber());
+                System.out.println("refnumber "+userdetails.getRefno());
+                System.out.println("Category "+userdetails.getCategory());
+                return Staffservice.RegisterAgent(userdetails);
+            }
+           else {
+               throw new  AppException(Response.Status.BAD_REQUEST.getStatusCode(), 501, 
+					" Kindly pass the Userdetails ", AppConstants.BLOG_POST_URL);
+      
+        }
+     }catch (Exception exp){
+         System.err.print(exp);
+         throw new  AppException(Response.Status.FORBIDDEN.getStatusCode(), 500, 
+					exp.toString(), AppConstants.BLOG_POST_URL);
+     }     
+           
+     
+    }
    
 }

@@ -192,7 +192,7 @@ StaffMngt.controller('registerCustomerctrl', function ($scope,$window,staffFacto
 					});
                                     
 });
-StaffMngt.controller('registerAgentctrl', function ($scope,$window,staffFactory) {
+StaffMngt.controller('registerAgentctrl', function ($scope,$window,staffFactory,prompt) {
     
         staffFactory.getUnregisteredAgents()
               .success(function(data) {
@@ -202,6 +202,43 @@ StaffMngt.controller('registerAgentctrl', function ($scope,$window,staffFactory)
 				 .error(function(data) {
 				   $scope.agents=[];
 					});
+                                        
+                                        
+    $scope.registerAgent=function(agent){
+          console.log(agent);
+        var userdetails={};     
+             prompt( "Kindly Enter The Agent Username ", agent.agentNo ).then(
+                    function( response ) {
+                         userdetails.Username=response ;
+                        console.log( "Prompt accomplished with", response );
+                             userdetails.Category="agent" ;
+                                userdetails.EMail=agent.EMail ;
+                                userdetails.Refno=agent.agentNo ;
+                                userdetails.Passwrd="test" ;
+                                userdetails.number=agent.agentNo ;
+        
+                        staffFactory.registerUsers(userdetails)
+                           .success(function(data) {
+                                 console.log(data);
+                                 if (data.status !=2){                 
+                                  alert(data.msg);
+                                  }
+                                  else {
+                                      alert(data.Exception);
+
+                                  }
+                               }) 
+                           .error(function(data) {
+                                console.log(data);
+
+                                });
+                        
+                    },
+                    function() {
+                        alert("You Have to Provide a Username");
+                    }
+                );     
+    }                                   
     
 });
 StaffMngt.controller('registerStaffctrl', function ($scope,$window,staffFactory) {
@@ -265,7 +302,10 @@ StaffMngt.factory('staffFactory', ['$http',function($http) {
                getUnconfirmedInterest:function () {
 		     return $http.get('/Web/rest/staff/UnconfirmedInterests',{ cache: true });
             },
-            
+             registerUsers:function (userdetails) {
+                     console.log(userdetails);
+		     return $http.post('/Web/rest/staff/RegisterUsers',userdetails);
+               },
                    
             logout:function () {
 		     return $http.get('/web/logout');
@@ -273,5 +313,24 @@ StaffMngt.factory('staffFactory', ['$http',function($http) {
 	}
 	return data;
 }]);
+
+
+StaffMngt.factory("prompt", function( $window, $q ) {
+                // Define promise-based prompt() method.
+                function prompt( message, defaultValue ) {
+                    var defer = $q.defer();
+                    // The native prompt will return null or a string.
+                    var response = $window.prompt( message, defaultValue );
+                    if ( response === null ) {
+                        defer.reject();
+                    } else {
+                        defer.resolve( response );
+                    }
+                    return( defer.promise );
+                }
+                return( prompt );
+            }
+        );
+
 
 
