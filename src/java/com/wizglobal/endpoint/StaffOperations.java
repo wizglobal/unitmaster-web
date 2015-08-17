@@ -190,14 +190,9 @@ public class StaffOperations {
        
      try {  
           String token =headers.getRequestHeader("token").get(0); 
-            if ( userdetails.getUsername() !=null || userdetails.getRefno() !=null){  
-                System.out.println("Useranme "+userdetails.getUsername());
-                System.out.println("email "+userdetails.getEMail());
-                System.out.println("number "+userdetails.getNumber());
-                System.out.println("refnumber "+userdetails.getRefno());
-                System.out.println("Category "+userdetails.getCategory());
-                return Staffservice.RegisterAgent(userdetails);
-            }
+            if ( userdetails.getUsername() !=null || userdetails.getRefno() !=null || userdetails.getEMail() !=null){  
+                return Staffservice.RegisterUser(token,userdetails);
+           }
            else {
                throw new  AppException(Response.Status.BAD_REQUEST.getStatusCode(), 501, 
 					" Kindly pass the Userdetails ", AppConstants.BLOG_POST_URL);

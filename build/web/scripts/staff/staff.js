@@ -179,7 +179,7 @@ StaffMngt.controller('confirmMembersctrl', function ($scope,$window,staffFactory
 });
 
 
-StaffMngt.controller('registerCustomerctrl', function ($scope,$window,staffFactory) {
+StaffMngt.controller('registerCustomerctrl', function ($scope,$window,staffFactory,prompt) {
    
     
       staffFactory.getUnregisteredCustomers()
@@ -190,6 +190,42 @@ StaffMngt.controller('registerCustomerctrl', function ($scope,$window,staffFacto
 				 .error(function(data) {
 				   $scope.members=[];
 					});
+                                        
+       $scope.registermember=function(member){
+        var userdetails={}; 
+          console.log(member);
+              prompt( "Kindly Enter The Member Username ", member.memberNo ).then(
+                    function( response ) {
+                                userdetails.username=response ;
+                                userdetails.category="customer" ;
+                                userdetails.EMail=member.EMail ;
+                                userdetails.refno=member.memberNo ;
+                                userdetails.passwrd="test" ;
+                                userdetails.number=member.memberNo ;
+        
+                        staffFactory.registerUsers(userdetails)
+                           .success(function(data) {
+                                 if (data.status !=2){                 
+                                  alert(data.msg);
+                                  }
+                                  else {
+                                      alert(data.Exception);
+
+                                  }
+                               }) 
+                           .error(function(data) {
+                                console.log(data);
+
+                                });
+                        
+                    },
+                    function() {
+                        alert("You Have to Provide a Username");
+                    }
+                );
+          
+        
+    }                                  
                                     
 });
 StaffMngt.controller('registerAgentctrl', function ($scope,$window,staffFactory,prompt) {
@@ -205,21 +241,18 @@ StaffMngt.controller('registerAgentctrl', function ($scope,$window,staffFactory,
                                         
                                         
     $scope.registerAgent=function(agent){
-          console.log(agent);
         var userdetails={};     
              prompt( "Kindly Enter The Agent Username ", agent.agentNo ).then(
                     function( response ) {
-                         userdetails.Username=response ;
-                        console.log( "Prompt accomplished with", response );
-                             userdetails.Category="agent" ;
+                                userdetails.username=response ;
+                                userdetails.category="agent" ;
                                 userdetails.EMail=agent.EMail ;
-                                userdetails.Refno=agent.agentNo ;
-                                userdetails.Passwrd="test" ;
+                                userdetails.refno=agent.agentNo ;
+                                userdetails.passwrd="test" ;
                                 userdetails.number=agent.agentNo ;
         
                         staffFactory.registerUsers(userdetails)
                            .success(function(data) {
-                                 console.log(data);
                                  if (data.status !=2){                 
                                   alert(data.msg);
                                   }
@@ -241,16 +274,52 @@ StaffMngt.controller('registerAgentctrl', function ($scope,$window,staffFactory,
     }                                   
     
 });
-StaffMngt.controller('registerStaffctrl', function ($scope,$window,staffFactory) {
+StaffMngt.controller('registerStaffctrl', function ($scope,$window,staffFactory,prompt) {
     
          staffFactory.getUnregisteredStaff()
               .success(function(data) {
-			    	 $scope.staffs=data;
-                        
+			    	 $scope.staffs=data;              
 					}) 
 				 .error(function(data) {
 				   $scope.staffs=[];
 					});
+                                        
+    $scope.registerStaff=function(staff){
+        var userdetails={};   
+        
+        console.log(staff);
+            prompt( "Kindly Enter The Staff Username ", staff.userId ).then(
+                    function( response ) {
+                                userdetails.username=response ;
+                                userdetails.category="staff" ;
+                                userdetails.EMail=staff.EMail ;
+                                userdetails.refno=staff.userId ;
+                                userdetails.passwrd="test" ;
+                                userdetails.number=staff.userId ;
+        
+                        staffFactory.registerUsers(userdetails)
+                           .success(function(data) {
+                                 if (data.status !=2){                 
+                                  alert(data.msg);
+                                  }
+                                  else {
+                                      alert(data.Exception);
+
+                                  }
+                               }) 
+                           .error(function(data) {
+                                console.log(data);
+
+                                });
+                        
+                    },
+                    function() {
+                        alert("You Have to Provide a Username");
+                    }
+                );
+          
+        
+    }                                    
     
 });
 
@@ -303,7 +372,6 @@ StaffMngt.factory('staffFactory', ['$http',function($http) {
 		     return $http.get('/Web/rest/staff/UnconfirmedInterests',{ cache: true });
             },
              registerUsers:function (userdetails) {
-                     console.log(userdetails);
 		     return $http.post('/Web/rest/staff/RegisterUsers',userdetails);
                },
                    

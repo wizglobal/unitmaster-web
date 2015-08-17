@@ -86,22 +86,125 @@ public class StaffService {
                 tkn=loginToken.parseJWT(token); 
         return iRatesJpaController.ListUnconfirmedRates(tkn.getUsername());
     }
-    public String RegisterAgent(Userdetails userdetails){
-        JSONObject obj = new JSONObject();  
+     public String RegisterUser(String token,Userdetails userdetails) {
+         StaffService ss = new StaffService();
+         String rt="";
+             
+            loginToken= new LoginToken();     
+                tkn=loginToken.parseJWT(token);
+                
+            if (userdetails.getCategory().equals("agent")){
+              rt= ss.RegisterAgent(userdetails);
+            }else if (userdetails.getCategory().equals("staff")){
+              rt= ss.RegisterStaff(userdetails);
+            }else if (userdetails.getCategory().equals("customer")){
+              rt= ss.RegisterCustomer(userdetails);
+            }
+            
+            return rt;
+     }  
+     
+     private String RegisterCustomer(Userdetails userdetails){
+           JSONObject obj = new JSONObject();  
         Memberpass mp = new Memberpass();
           StaffService ss = new StaffService();
            
            try {
-                 mp.setCategory("agent");
+                 mp.setCategory(userdetails.getCategory());
                  mp.setEMail(userdetails.getEMail());
                  mp.setRefno(userdetails.getRefno());
                  mp.setUsername(userdetails.getUsername());
                  mp.setPasswrd(userdetails.getPasswrd());
                 
-                 int status =ss.RegisterUser(mp);
+                 int status =ss.CreateUser(mp);
                  
                  obj.put("status", status);
-                 obj.put("msg", "Agent Created");
+                 obj.put("msg", "Member Created");
+               
+           }catch (Exception ex){
+               obj.put("status", 2);
+               obj.put("msg", "Error Occurred");
+               obj.put("Exception", "The Username Exists ");
+               ex.printStackTrace();
+               
+               
+           }
+        
+        return obj.toString();
+     }
+     
+     private String RegisterStaff(Userdetails userdetails){
+           JSONObject obj = new JSONObject();  
+        Memberpass mp = new Memberpass();
+          StaffService ss = new StaffService();
+           
+           try {
+                 mp.setCategory(userdetails.getCategory());
+                 mp.setEMail(userdetails.getEMail());
+                 mp.setRefno(userdetails.getRefno());
+                 mp.setUsername(userdetails.getUsername());
+                 mp.setPasswrd(userdetails.getPasswrd());
+                
+                 int status =ss.CreateUser(mp);
+                  if (status==1){
+                     usersetupJpaController = new UsersetupJpaController();
+                      int k= usersetupJpaController.updateStaff(userdetails.getRefno());
+                        if (k==1){
+                            obj.put("status", status);
+                            obj.put("msg", "Staff Created");
+                        }else {
+                                obj.put("status", 2);
+                                obj.put("msg", "Bussiness Error contact Admin");
+                                obj.put("Exception", "Error Updating Staff Details ");
+                        }
+                  }else {
+                        obj.put("status", 2);
+                        obj.put("msg", "Bussiness Error contact Admin");
+                        obj.put("Exception", "Error Creating Staff Details ");
+                  }  
+                
+               
+           }catch (Exception ex){
+               obj.put("status", 2);
+               obj.put("msg", "Error Occurred");
+               obj.put("Exception", "The Username Exists ");
+               ex.printStackTrace();
+               
+               
+           }
+        
+        return obj.toString();
+     }
+    private String RegisterAgent(Userdetails userdetails){
+        JSONObject obj = new JSONObject();  
+        Memberpass mp = new Memberpass();
+          StaffService ss = new StaffService();
+           
+           try {
+                 mp.setCategory(userdetails.getCategory());
+                 mp.setEMail(userdetails.getEMail());
+                 mp.setRefno(userdetails.getRefno());
+                 mp.setUsername(userdetails.getUsername());
+                 mp.setPasswrd(userdetails.getPasswrd());
+                
+                 int status =ss.CreateUser(mp);
+                 if (status==1){
+                      agentsJpaController = new AgentsJpaController();
+                    int t= agentsJpaController.updateAgent(userdetails.getRefno());
+                      if (t==1){
+                          obj.put("status", status);
+                          obj.put("msg", "Agent Created");
+                      }else {
+                        obj.put("status", 2);
+                        obj.put("msg", "Bussiness Error contact Admin");
+                        obj.put("Exception", "Error on Updating Agent details");
+                      }
+                 }else {
+                        obj.put("status", 2);
+                        obj.put("msg", "Bussiness Error contact Admin");
+                        obj.put("Exception", "Error Creating the Agent Details");
+                 }
+                 
                
            }catch (Exception ex){
                obj.put("status", 2);
@@ -115,7 +218,7 @@ public class StaffService {
         return obj.toString();
     }
     
-    private int RegisterUser (Memberpass memberpass) throws usernameExistsException{
+    private int CreateUser (Memberpass memberpass) throws usernameExistsException{
         membercontroller = new MemberpassJpaController();
         try {
             membercontroller.create(memberpass);
