@@ -6,6 +6,7 @@
 package com.wizglobal.service;
 
 import com.wizglobal.Controller.AgentsJpaController;
+import com.wizglobal.Controller.FeedbacksJpaController;
 import com.wizglobal.Controller.IRatesJpaController;
 import com.wizglobal.Controller.MemberpassJpaController;
 import com.wizglobal.Controller.MembersJpaController;
@@ -14,6 +15,7 @@ import com.wizglobal.Controller.TransJpaController;
 import com.wizglobal.Controller.UsersetupJpaController;
 import com.wizglobal.ExceptionHandling.usernameExistsException;
 import com.wizglobal.entities.Agents;
+import com.wizglobal.entities.Feedbacks;
 import com.wizglobal.entities.IRates;
 import com.wizglobal.entities.Memberpass;
 import com.wizglobal.entities.Members;
@@ -21,6 +23,7 @@ import com.wizglobal.entities.Navs;
 import com.wizglobal.entities.Trans;
 import com.wizglobal.entities.Usersetup;
 import com.wizglobal.entities.Userdetails;
+import com.wizglobal.entities.feedbackPojo;
 import com.wizglobal.helpers.tokendetails;
 import com.wizglobal.security.LoginToken;
 import java.util.List;
@@ -35,7 +38,7 @@ public class StaffService {
   NavsJpaController navsJpaController;
   TransJpaController     transJpaController;
   IRatesJpaController iRatesJpaController;
- 
+ FeedbacksJpaController feedbacksJpaController;
       LoginToken loginToken;
     tokendetails tkn;
     public List<Memberpass> onlineUsers(String token){
@@ -149,6 +152,7 @@ public class StaffService {
                   if (status==1){
                      usersetupJpaController = new UsersetupJpaController();
                       int k= usersetupJpaController.updateStaff(userdetails.getRefno());
+                        System.out.println("Is staff Updated " +k);
                         if (k==1){
                             obj.put("status", status);
                             obj.put("msg", "Staff Created");
@@ -191,6 +195,7 @@ public class StaffService {
                  if (status==1){
                       agentsJpaController = new AgentsJpaController();
                     int t= agentsJpaController.updateAgent(userdetails.getRefno());
+                  
                       if (t==1){
                           obj.put("status", status);
                           obj.put("msg", "Agent Created");
@@ -229,4 +234,58 @@ public class StaffService {
         }
         
     }
+    
+    public String ConfirmMember(String token ,String memberno){
+       membersJpaController = new MembersJpaController();
+       JSONObject obj = new JSONObject();  
+        try {
+              loginToken= new LoginToken();     
+                tkn=loginToken.parseJWT(token); 
+               int status= membersJpaController.confirmMember(tkn.getUsername(),memberno);
+                          obj.put("status", status);
+                          obj.put("msg", "Member Confirmed");
+            
+        }catch (Exception ex){
+            ex.printStackTrace();
+                          obj.put("status", 2);
+                          obj.put("msg", "Error Occured");
+                          obj.put("Exception", ex.toString());
+        }
+        return obj.toString();
+    }
+      public List<Feedbacks> getAllFeedbacks(String token){
+        feedbacksJpaController = new FeedbacksJpaController();
+          loginToken= new LoginToken();     
+               tkn=loginToken.parseJWT(token);
+        return feedbacksJpaController.findFeedbacksEntities();
+    }
+      
+      public String updateFeedback(String token,feedbackPojo feedback){
+           feedbacksJpaController = new FeedbacksJpaController();
+           JSONObject obj = new JSONObject();  
+        try {
+              loginToken= new LoginToken();     
+                tkn=loginToken.parseJWT(token); 
+                feedback.setRespondedby(tkn.getUsername());
+             
+               int status= feedbacksJpaController.updateFeedback(feedback);
+                     if (status==1){
+                           obj.put("status", status);
+                          obj.put("msg", "Feedback Updated ");
+                      }else {
+                        obj.put("status", 2);
+                        obj.put("msg", "Bussiness Error contact Admin");
+                        obj.put("Exception", "Error on Updating Feedback ");
+                      } 
+               
+                         
+            
+        }catch (Exception ex){
+            ex.printStackTrace();
+                          obj.put("status", 2);
+                          obj.put("msg", "Error Occured");
+                          obj.put("Exception", ex.toString());
+        }
+        return obj.toString();
+      }
 }

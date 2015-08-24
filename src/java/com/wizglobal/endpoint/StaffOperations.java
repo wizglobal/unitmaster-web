@@ -9,6 +9,7 @@ import com.wizglobal.ExceptionHandling.AppException;
 import com.wizglobal.Helpers.customerAccounts;
 import com.wizglobal.config.AppConstants;
 import com.wizglobal.entities.Agents;
+import com.wizglobal.entities.Feedbacks;
 import com.wizglobal.entities.IRates;
 import com.wizglobal.entities.Memberpass;
 import com.wizglobal.entities.Members;
@@ -17,7 +18,10 @@ import com.wizglobal.entities.Navs;
 import com.wizglobal.entities.Trans;
 import com.wizglobal.entities.Userdetails;
 import com.wizglobal.entities.Usersetup;
+import com.wizglobal.entities.feedbackPojo;
 import com.wizglobal.helpers.credentials;
+import com.wizglobal.helpers.memberConfirmDetails;
+import com.wizglobal.service.FeedbackService;
 import com.wizglobal.service.LoginService;
 import com.wizglobal.service.MemberService;
 import com.wizglobal.service.StaffService;
@@ -181,6 +185,27 @@ public class StaffOperations {
      }
     
    }
+    @GET
+    @Path("/getFeedbacks")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<Feedbacks>  getfeedbacks(@Context HttpHeaders headers) throws AppException  {
+       Staffservice = new StaffService();
+       
+     try {  
+          String token =headers.getRequestHeader("token").get(0); 
+          
+                return Staffservice.getAllFeedbacks(token);
+          
+      
+        
+     }catch (Exception exp){
+         System.err.print(exp);
+         throw new  AppException(Response.Status.FORBIDDEN.getStatusCode(), 500, 
+					exp.toString(), AppConstants.BLOG_POST_URL);
+     }     
+           
+     
+    }
    
     @POST
     @Path("/RegisterUsers")
@@ -206,5 +231,51 @@ public class StaffOperations {
            
      
     }
+    
+     @POST
+    @Path("/ConfirmMember")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String  confirmMember(Members MemberConfirmDetails ,@Context HttpHeaders headers) throws AppException  {
+       Staffservice = new StaffService();
+        try {  
+          String token =headers.getRequestHeader("token").get(0); 
+          System.out.println("Member number" +MemberConfirmDetails.getMemberNo());
+            if ( MemberConfirmDetails.getMemberNo() !=null ){  
+                return Staffservice.ConfirmMember(token, MemberConfirmDetails.getMemberNo());
+           }
+           else {
+               throw new  AppException(Response.Status.BAD_REQUEST.getStatusCode(), 501, 
+					" Kindly pass the Member Number ", AppConstants.BLOG_POST_URL);
+      
+        }
+     }catch (Exception exp){
+         exp.printStackTrace();
+         throw new  AppException(Response.Status.FORBIDDEN.getStatusCode(), 500, 
+					exp.toString(), AppConstants.BLOG_POST_URL);
+     }
+        
+    }    
+    @POST
+    @Path("/updateFeedback")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String updateFeedback(@Context HttpHeaders headers,feedbackPojo  feedbacks) throws AppException  {
+          Staffservice = new StaffService();
+        
+       
+         try {
+             String token =headers.getRequestHeader("token").get(0);
+             System.out.println("Feedback id "+feedbacks.getFeedbackid());
+             System.out.println("Responded BY "+feedbacks.getRespondedby());
+              System.out.println("Response Date "+feedbacks.getResponsedate());
+               System.out.println("Response "+feedbacks.getResponse());
+          return   Staffservice.updateFeedback(token, feedbacks);
+         }  
+         catch(Exception ex){
+          throw new  AppException(Response.Status.CONFLICT.getStatusCode(), 500, 
+					ex.toString(), AppConstants.BLOG_POST_URL);
+      }
+    
+  }
+    
    
 }

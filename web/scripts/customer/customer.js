@@ -54,8 +54,16 @@ CustomerMngt.controller('profilectrl', function ($scope,$window, CustomerDetails
     
 });
 
-CustomerMngt.controller('Feedbackctrl', function ($scope,$window) {
-    
+CustomerMngt.controller('Feedbackctrl', function ($scope,$window,customerFactory) {
+    customerFactory.getFeedbacks()
+    .success(function(data) {
+		  $scope.feedbacks=data;
+                  console.log("feedbacks");
+                  console.log(data);
+                  }) 
+		.error(function(data) {
+		  $scope.feedbacks=[];	
+		  });
 });
 CustomerMngt.controller('changepasswordctrl', function ($scope,$window) {
     
@@ -67,7 +75,20 @@ CustomerMngt.controller('aboutctrl', function ($scope,$window) {
 CustomerMngt.controller('helpctrl', function ($scope,$window) {
     
 });
-CustomerMngt.controller('sendfeedbackctrl', function ($scope,$window) {
+CustomerMngt.controller('sendfeedbackctrl', function ($scope,$window,CustomerDetails,customerFactory) {
+    console.log("Member details ");
+     console.log(CustomerDetails.get());
+    $scope.SubmitFeedback=function(feedback){
+         console.log("Feedback");
+     console.log(feedback);
+        customerFactory.postFeedback(feedback)
+                .success(function(data) {
+		  console.log(data);
+                  }) 
+		.error(function(data) {
+		  console.log(data)	;
+		  });
+    }
     
 });
 
@@ -229,6 +250,13 @@ CustomerMngt.factory('customerFactory', ['$http',function($http) {
            getCustomerBankDetails:function () {
 		     return $http.get('/Web/rest/member/Bankdetails',{ cache: true });
             },
+            getFeedbacks:function () {
+		     return $http.get('/Web/rest/feedback/memberfeedback',{ cache: true });
+            },
+             postFeedback:function (feedback) {
+                 console.log(feedback);
+		     return $http.post('/Web/rest/feedback/createFeedback',feedback);
+               },
             
           
             logout:function () {

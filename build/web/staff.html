@@ -2,13 +2,17 @@
 
   <head>
     <meta charset="utf-8">
-    <title>Agent </title>
+    <title>Staff </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
            <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
 	   <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css" />
            <link rel="stylesheet" href="styles/staff/staff.css">
+           <link rel="stylesheet" href="lib/dialog/css/ngDialog.min.css">
+           <link rel="stylesheet" href="lib/dialog/css/ngDialog-theme-default.css">
+           
+         
   
   </head>
   <body ng-app="StaffApp">
@@ -24,8 +28,8 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                      <a class="navbar-brand" href="#">
-                       <span class="glyphicon glyphicon-home"></span>
+                      <a class="navbar-brand" href="#!/home">
+                      
                        <strong>Wizglobal Staff </strong>
                       </a>
                  </div>
@@ -57,7 +61,7 @@
                     <a href="#" class="list-group-item active">Navigation</a>
                     <a href="#!/home" class="list-group-item">Home</a>
                     <a href="#!/userRegistration" class="list-group-item">Register User</a>
-                    <a href="#!/statement" class="list-group-item">Customer Feedbacks</a>
+                    <a href="#!/feedback" class="list-group-item">Customer Feedbacks</a>
                
                 </div>
                 <div class="list-group">
@@ -98,8 +102,42 @@
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="lib/angular/angular-route/angular-route.min.js"></script>
      <script src="lib/pagination/pagination.js"></script>
+     <script src="lib/dialog/ngDialog.min.js"></script>
         <script src="scripts/staff/staff.js"></script>
-      
+    
+        
+        <script type="text/ng-template" id="templateId">
+             <div class="ngdialog-message">
+            <h3>Confirm Member</h3>
+             <p>Member Number  {{ memb.memberNo }}</p>
+             <p>Member names  {{ memb.title }} {{ memb.allnames }}</p>
+             <p>Member Email  {{ memb.EMail }}</p>
+             <p>Member ID  {{ memb.idNo}}</p>
+             <p>Member D.O.B {{ memb.dob}}</p>
+             <p>Member Gender  {{ memb.gender }}</p>
+             <p>Member GSM No.  {{ memb.gsmNo }}</p>
+             <p>Member PostAddress  {{ memb.postAddress }}</p>
+             <p>Member Registration Date   {{ memb.regDate }}</p>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm('ok')">Confirm</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('No')">Cancel</button>
+        </div>
+       </script>
+       
+        <script type="text/ng-template" id="staffFeedbacktmpl">
+             <div class="ngdialog-message">
+                        <div class="row">  
+                                 <div class ="col-md-12">
+                              <label for="desc">Enter Your Response Here</label>
+				<textarea class="form-control" rows="10" id="desc" ng-model="feedback.response" ></textarea>
+                             </div>
+                             </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(feedback)">Send Response</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('No')">Cancel</button>
+        </div>
+       </script>
 
    
 </body>

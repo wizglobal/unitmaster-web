@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">CUSTOMER FEEDBACKS</h3>
+    
+  </div>
+  <div class="panel-body">
+     
+     <table class="table table-hover table-condensed table-responsive">
+    <thead>
+      <tr>
+         <th >ID</th>
+        <th>SUBMISSION DATE</th>
+        <th >SUBJECT</th>
+        <th>MEMBER ID</th>
+         <th>CATEGORY</th>
+        <th >RESPONDED TO?</th>
+        <th >RESPONDED BY</th> 
+        <th><button class="btn btn-danger" >Respond </button></th>  
+      </tr>
+    </thead>
+    <tbody>
+                  <tr dir-paginate="feedback in feedbacks | orderBy:'id' | itemsPerPage:4 ">
+                     <td>{{ feedback.id }}</td>
+                     <td>{{ feedback.submissionDate }}</td>
+                     <td>{{ feedback.subject}}</td>
+                     <td>{{ feedback.memberNo}}</td>
+                     <td>{{ feedback.category}}</td>
+                     <td><div ng-if="feedback.category==1" style="background-color: red;"></div></td> 
+                     <td>{{ feedback.respondedBy }}</td>
+                     <td><button class="btn btn-danger" ng-click="feedbackResponse(feedback)">Respond </button></td>  
+                  </tr>
+    </tbody>
+  </table>
+        <dir-pagination-controls   max-size="4"  direction-links="true"  boundary-links="true" >  </dir-pagination-controls>
+  </div>
+</div>
+</div>    
+    

@@ -8,6 +8,7 @@ package com.wizglobal.endpoint;
 import com.wizglobal.ExceptionHandling.AppException;
 import com.wizglobal.config.AppConstants;
 import com.wizglobal.entities.Feedbacks;
+import com.wizglobal.entities.feedbackPojo;
 import com.wizglobal.helpers.credentials;
 import com.wizglobal.service.FeedbackService;
 import java.util.List;
@@ -38,13 +39,15 @@ public class FeedbackOperation {
 					ex.toString(), AppConstants.BLOG_POST_URL);
       }
      }
-       @POST
+    @POST
     @Path("/createFeedback")
     @Consumes(MediaType.APPLICATION_JSON)
-    public String createFeedback(@Context HttpHeaders headers,Feedbacks  feedbacks) throws AppException  {
+    public String createFeedback(@Context HttpHeaders headers,feedbackPojo  feedbacks) throws AppException  {
          String token =headers.getRequestHeader("token").get(0);
          feedbackService = new FeedbackService();
          try {
+             System.out.println("Description "+feedbacks.getDESCRIPTION());
+             System.out.println("Subject "+feedbacks.getSUBJECT());
           return   feedbackService.CreateFeedback(feedbacks, token);
          }  
          catch(Exception ex){

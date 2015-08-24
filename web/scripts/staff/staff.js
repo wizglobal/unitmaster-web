@@ -1,6 +1,6 @@
 'use strict';
 
-var StaffMngt= angular.module('StaffApp', ['ngRoute','angularUtils.directives.dirPagination'] ); 
+var StaffMngt= angular.module('StaffApp', ['ngRoute','angularUtils.directives.dirPagination','ngDialog'] ); 
 
 	StaffMngt.factory('authInterceptor', function ($rootScope, $q, $window) {
 		  return {
@@ -47,7 +47,7 @@ $locationProvider.hashPrefix("!");
         })       
         
     .when('/feedback', {
-     templateUrl: 'views/common/feedback.html',   
+     templateUrl: 'views/common/staffFeedbacks.html',   
       controller: 'Feedbackctrl' 
         })   
         
@@ -117,7 +117,48 @@ StaffMngt.controller('onlineCustomerctrl', function ($scope,$window,staffFactory
 StaffMngt.controller('profilectrl', function ($scope,$window,staffFactory) {
     
 });
-StaffMngt.controller('Feedbackctrl', function ($scope,$window) {
+StaffMngt.controller('Feedbackctrl', function ($scope,$window,staffFactory,ngDialog) {
+      staffFactory.getFeedbacks()
+                .success(function(data) {
+		  $scope.feedbacks=data;
+                  console.log("feedbacks");
+                  console.log(data);
+                  }) 
+		.error(function(data) {
+		  $scope.feedbacks=[];	
+		  });
+                  
+           $scope.feedbackResponse=function(feedback){
+                ngDialog.openConfirm({
+                    template: 'staffFeedbacktmpl',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                }).then(function (value) {
+                    var det ={};
+                    det.response=value.response;
+                    det.feedbackid=feedback.id; 
+                    det.responsedate=new Date();
+                    
+                     staffFactory.updateFeedback(det)
+                           .success(function(data) {
+                                 if (data.status !=2){                 
+                                  alert(data.msg);
+                                  }
+                                  else {
+                                      alert(data.Exception);
+
+                                  }
+                               }) 
+                           .error(function(data) {
+                                console.log(data);
+
+                                });
+                    
+                }, function (reason) {
+                    console.log('Modal promise rejected. Reason: ', reason);
+                });
+               
+           }       
     
 });
 StaffMngt.controller('changepasswordctrl', function ($scope,$window) {
@@ -166,7 +207,7 @@ StaffMngt.controller('confirmNavsctrl', function ($scope,$window,staffFactory) {
 });
 
 
-StaffMngt.controller('confirmMembersctrl', function ($scope,$window,staffFactory) {
+StaffMngt.controller('confirmMembersctrl', function ($scope,$window,staffFactory,ngDialog) {
     
     
           staffFactory.getUnconfirmedMembers()
@@ -176,6 +217,37 @@ StaffMngt.controller('confirmMembersctrl', function ($scope,$window,staffFactory
 				 .error(function(data) {
 				   $scope.members=[];
 					});
+                                        
+     $scope.viewDetails =function(member){
+         console.log(member);
+        $scope.memb=member;
+                ngDialog.openConfirm({
+                    template: 'templateId',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                }).then(function (value) {
+                     var det={};
+                                          
+                       staffFactory.confirmMember(member)
+                           .success(function(data) {
+                                 if (data.status !=2){                 
+                                  alert(data.msg);
+                                  }
+                                  else {
+                                      alert(data.Exception);
+
+                                  }
+                               }) 
+                           .error(function(data) {
+                                console.log(data);
+
+                                });
+                    
+                    
+                }, function (reason) {
+                    console.log('Modal promise rejected. Reason: ', reason);
+                });
+     }                                  
 });
 
 
@@ -287,7 +359,6 @@ StaffMngt.controller('registerStaffctrl', function ($scope,$window,staffFactory,
     $scope.registerStaff=function(staff){
         var userdetails={};   
         
-        console.log(staff);
             prompt( "Kindly Enter The Staff Username ", staff.userId ).then(
                     function( response ) {
                                 userdetails.username=response ;
@@ -374,7 +445,19 @@ StaffMngt.factory('staffFactory', ['$http',function($http) {
              registerUsers:function (userdetails) {
 		     return $http.post('/Web/rest/staff/RegisterUsers',userdetails);
                },
-                   
+             confirmMember:function (details) {
+                 console.log(details);
+		     return $http.post('/Web/rest/staff/ConfirmMember',details);
+               },
+               
+               updateFeedback:function (feedback) {
+               
+		     return $http.post('/Web/rest/staff/updateFeedback',feedback);
+               },
+             getFeedbacks:function () {
+		     return $http.get('/Web/rest/staff/getFeedbacks',{ cache: true });
+            },
+            
             logout:function () {
 		     return $http.get('/web/logout');
             },

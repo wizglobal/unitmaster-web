@@ -16,11 +16,11 @@
       </tr>
     </thead>
     <tbody>
-      <tr ng-repeat="feedback in feedbacksns">
-                     <td>{{ feedback.transId }}</td>
-                    <td>{{ tran.transType }}</td>
-                      <td>{{ tran.transDate}}</td>
-                     <td>{{ tran.portfolio }}</td>    
+                  <tr ng-repeat="feedback in feedbacks">
+                     <td>{{ feedback.id }}</td>
+                     <td>{{ feedback.submissionDate }}</td>
+                     <td>{{ feedback.subject}}</td>
+                     <td>{{ feedback.responded_to }}</td>    
                   </tr>
     </tbody>
   </table>

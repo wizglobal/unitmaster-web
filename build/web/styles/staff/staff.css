@@ -6,4 +6,11 @@ body {
 
 }
 
+.navbar-inverse {
+    background-color: rgb(26, 10, 90);
+    border-color: #162C78;
+}
+.navbar-brand {
+    color: #E45050;
+}
 
