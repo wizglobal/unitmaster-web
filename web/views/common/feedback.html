@@ -16,14 +16,18 @@
       </tr>
     </thead>
     <tbody>
-                  <tr ng-repeat="feedback in feedbacks">
+                  <tr dir-paginate="feedback in feedbacks | orderBy:'id' | itemsPerPage:4 ">
                      <td>{{ feedback.id }}</td>
                      <td>{{ feedback.submissionDate }}</td>
                      <td>{{ feedback.subject}}</td>
-                     <td>{{ feedback.responded_to }}</td>    
+                     <td>
+                         <div ng-if="feedback.respondedTo==1" ><i ng-click="showfeedback(feedback)" class="fa fa-2x fa-check"></i></div>
+                          <div ng-if="feedback.respondedTo!=1" ><i class="fa fa-2x fa-times"></i></div>
+                     </td>   
                   </tr>
     </tbody>
   </table>
+       <dir-pagination-controls   max-size="4"  direction-links="true"  boundary-links="true" >  </dir-pagination-controls>
   </div>
 </div>
 </div>    

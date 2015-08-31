@@ -16,7 +16,7 @@
          <th>CATEGORY</th>
         <th >RESPONDED TO?</th>
         <th >RESPONDED BY</th> 
-        <th><button class="btn btn-danger" >Respond </button></th>  
+  
       </tr>
     </thead>
     <tbody>
@@ -26,7 +26,10 @@
                      <td>{{ feedback.subject}}</td>
                      <td>{{ feedback.memberNo}}</td>
                      <td>{{ feedback.category}}</td>
-                     <td><div ng-if="feedback.category==1" style="background-color: red;"></div></td> 
+                     <td>
+                         <div ng-if="feedback.respondedTo==1" ><i class="fa fa-check"></i></div>
+                          <div ng-if="feedback.respondedTo!=1" ><i class="fa fa-times"></i></div>
+                     </td> 
                      <td>{{ feedback.respondedBy }}</td>
                      <td><button class="btn btn-danger" ng-click="feedbackResponse(feedback)">Respond </button></td>  
                   </tr>

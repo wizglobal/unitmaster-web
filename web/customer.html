@@ -9,7 +9,8 @@
            <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css" />
 	   <link rel="stylesheet" href="lib/font-awesome/css/font-awesome.min.css" />
            <link rel="stylesheet" href="styles/customer/customer.css">
-  
+           <link rel="stylesheet" href="lib/dialog/css/ngDialog.min.css">
+           <link rel="stylesheet" href="lib/dialog/css/ngDialog-theme-default.css">
   </head>
   <body ng-app="CustomerApp">
 
@@ -94,10 +95,27 @@
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>
     <script src="lib/angular/angular-route/angular-route.min.js"></script>
+         <script src="lib/pagination/pagination.js"></script>
+     <script src="lib/dialog/ngDialog.min.js"></script>
   
         <script src="scripts/customer/customer.js"></script>
       
-
+  <script type="text/ng-template" id="feedbackResptmpl">
+             <div class="ngdialog-message">
+            <h3>Feedback Response</h3>
+             <p>Responded By {{ resp.respondedBy }}</p>
+              <div class="row">  
+                    <div class ="col-md-12">
+                 <label for="desc">Response</label>
+		<textarea class="form-control" rows="10" id="desc" ng-model="resp.responce" ></textarea>
+                     </div>
+                  </div>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm('ok')">Ok</button>
+           
+        </div>
+       </script>
    
 </body>
 </html>

@@ -1,4 +1,4 @@
-var CustomerMngt= angular.module('CustomerApp', ['ngRoute'] ); 
+var CustomerMngt= angular.module('CustomerApp', ['ngRoute','angularUtils.directives.dirPagination','ngDialog'] ); 
 
 	CustomerMngt.factory('authInterceptor', function ($rootScope, $q, $window) {
 		  return {
@@ -54,16 +54,29 @@ CustomerMngt.controller('profilectrl', function ($scope,$window, CustomerDetails
     
 });
 
-CustomerMngt.controller('Feedbackctrl', function ($scope,$window,customerFactory) {
+CustomerMngt.controller('Feedbackctrl', function ($scope,$window,customerFactory,ngDialog) {
     customerFactory.getFeedbacks()
     .success(function(data) {
 		  $scope.feedbacks=data;
-                  console.log("feedbacks");
-                  console.log(data);
+                //  console.log("feedbacks");
+                //  console.log(data);
                   }) 
 		.error(function(data) {
 		  $scope.feedbacks=[];	
 		  });
+                  
+      $scope.showfeedback =function(feedback){
+             $scope.resp=feedback;
+                ngDialog.openConfirm({
+                    template: 'feedbackResptmpl',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                }).then(function (value) {
+                    
+                  }, function (reason) {
+                    
+                });
+      }             
 });
 CustomerMngt.controller('changepasswordctrl', function ($scope,$window) {
     
@@ -76,17 +89,23 @@ CustomerMngt.controller('helpctrl', function ($scope,$window) {
     
 });
 CustomerMngt.controller('sendfeedbackctrl', function ($scope,$window,CustomerDetails,customerFactory) {
-    console.log("Member details ");
-     console.log(CustomerDetails.get());
+  //  console.log("Member details ");
+   //  console.log(CustomerDetails.get());
     $scope.SubmitFeedback=function(feedback){
-         console.log("Feedback");
-     console.log(feedback);
+    //     console.log("Feedback");
+    // console.log(feedback);
         customerFactory.postFeedback(feedback)
                 .success(function(data) {
-		  console.log(data);
+		          if (data.status !=2){                 
+                                  alert(data.msg);
+                                  }
+                                  else {
+                                      alert(data.Exception);
+
+                                  }
                   }) 
 		.error(function(data) {
-		  console.log(data)	;
+		  alert(data)	;
 		  });
     }
     
