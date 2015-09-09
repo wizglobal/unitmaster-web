@@ -264,10 +264,7 @@ public class StaffOperations {
        
          try {
              String token =headers.getRequestHeader("token").get(0);
-             System.out.println("Feedback id "+feedbacks.getFeedbackid());
-             System.out.println("Responded BY "+feedbacks.getRespondedby());
-              System.out.println("Response Date "+feedbacks.getResponsedate());
-               System.out.println("Response "+feedbacks.getResponse());
+          
           return   Staffservice.updateFeedback(token, feedbacks);
          }  
          catch(Exception ex){

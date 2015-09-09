@@ -12,10 +12,12 @@ import com.wizglobal.service.AccountService;
 import com.wizglobal.service.AgentService;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.HttpHeaders;
@@ -48,11 +50,32 @@ public class AgentOperation {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
   public Agents getAccount(@Context HttpHeaders headers)  throws AppException{
      String token =headers.getRequestHeader("token").get(0);
-     
-     System.out.println(token);
      AgentService  agent = new  AgentService ();
       try {
           return agent.getAgent(token);
+      }catch(Exception ex){
+          throw new  AppException(Response.Status.CONFLICT.getStatusCode(), 500, 
+					ex.toString(), AppConstants.BLOG_POST_URL);
+      }
+    
+  }
+   @GET
+    @Path("CustomerAgentDetails")
+   
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+  public Agents getCustomerAgent(@Context HttpHeaders headers,@DefaultValue("Undefined") @QueryParam("agentid") String agentid)  throws AppException{
+     String token =headers.getRequestHeader("token").get(0);
+     AgentService  agent = new  AgentService ();
+      try {
+          if (agentid.equals("Undefined")){
+            throw new  AppException(Response.Status.NO_CONTENT.getStatusCode(), 501, 
+					"Kindly pass the Agent id", AppConstants.BLOG_POST_URL);
+          
+          }
+          else {
+              System.out.println("Agent id is " + agentid);
+          return agent.getCustomerAgent(token,agentid);
+          }
       }catch(Exception ex){
           throw new  AppException(Response.Status.CONFLICT.getStatusCode(), 500, 
 					ex.toString(), AppConstants.BLOG_POST_URL);

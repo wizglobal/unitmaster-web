@@ -19,9 +19,9 @@
                   <tr dir-paginate="feedback in feedbacks | orderBy:'id' | itemsPerPage:4 ">
                      <td>{{ feedback.id }}</td>
                      <td>{{ feedback.submissionDate }}</td>
-                     <td>{{ feedback.subject}}</td>
+                     <td><a ng-click="showfeedback(feedback)">{{ feedback.subject}}</a></td>
                      <td>
-                         <div ng-if="feedback.respondedTo==1" ><i ng-click="showfeedback(feedback)" class="fa fa-2x fa-check"></i></div>
+                          <div ng-if="feedback.respondedTo==1" ><i  class="fa fa-2x fa-check"></i></div>
                           <div ng-if="feedback.respondedTo!=1" ><i class="fa fa-2x fa-times"></i></div>
                      </td>   
                   </tr>

@@ -46,8 +46,7 @@ public class FeedbackOperation {
          String token =headers.getRequestHeader("token").get(0);
          feedbackService = new FeedbackService();
          try {
-             System.out.println("Description "+feedbacks.getDESCRIPTION());
-             System.out.println("Subject "+feedbacks.getSUBJECT());
+           
           return   feedbackService.CreateFeedback(feedbacks, token);
          }  
          catch(Exception ex){

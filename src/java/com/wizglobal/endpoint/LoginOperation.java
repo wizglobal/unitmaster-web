@@ -8,11 +8,14 @@ package com.wizglobal.endpoint;
 import com.wizglobal.ExceptionHandling.AppException;
 import com.wizglobal.config.AppConstants;
 import com.wizglobal.helpers.credentials;
+import com.wizglobal.helpers.pwdCredential;
 import com.wizglobal.service.LoginService;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.json.JSONObject;
@@ -53,6 +56,27 @@ public class LoginOperation {
     public String dologout() throws AppException  {
         
         return "success";
+    }
+    
+    @POST
+    @Path("/changepassword")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String changeCredential(pwdCredential  cred,@Context HttpHeaders headers) throws AppException  {
+       String token =headers.getRequestHeader("token").get(0);
+        String resp="";
+        
+        try {
+            logservice = new LoginService ();
+            
+System.out.println( "token " + token);
+
+        resp=logservice.ChangePassword(cred,token);
+         }catch (Exception exp){
+         System.err.print(exp);
+         throw new  AppException(Response.Status.FORBIDDEN.getStatusCode(), 500, 
+					exp.toString(), AppConstants.BLOG_POST_URL);
+     }  
+        return resp;
     }
     
 }

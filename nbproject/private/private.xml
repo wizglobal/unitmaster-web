@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/views/staff/confirmMembers.html</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/styles/customer/customer.css</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/service/StaffService.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/staff.html</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/helpers/credentials.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/endpoint/StaffOperations.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/views/staff/registration/registerAgent.html</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/helpers/memberConfirmDetails.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/scripts/staff/staff.js</file>
+            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/customer.html</file>
+            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/scripts/customer/customer.js</file>
+            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/service/FeedbackService.java</file>
+            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/views/customer/accountstatement.html</file>
+            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/service/TransactionService.java</file>
+            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/endpoint/TransactionOperation.java</file>
         </group>
     </open-files>
 </project-private>

@@ -8,6 +8,8 @@ package com.wizglobal.service;
 import com.wizglobal.Controller.MemberpassJpaController;
 import com.wizglobal.config.AppConstants;
 import com.wizglobal.entities.Memberpass;
+import com.wizglobal.helpers.pwdCredential;
+import com.wizglobal.helpers.tokendetails;
 import com.wizglobal.security.LoginToken;
 import com.wizglobal.security.MD5Checksum;
 import org.json.JSONObject;
@@ -35,7 +37,8 @@ public class LoginService {
        checksum = new MD5Checksum();
         logintoken = new LoginToken();
           memberpass =  membercontroller.findMemberDetails(username);
-             if (checksum.Checkhash("09d90c0c39cf41624aa62f142e82cecf", password)){
+      
+             if (checksum.Checkhash(memberpass.getPasswrd(), password)){
                  JSONObject obj = new JSONObject();  
                    obj.put("username", username);
                    obj.put("refnum", memberpass.getRefno());
@@ -50,5 +53,45 @@ public class LoginService {
      
      return status;  
    }
-   
+   public String ChangePassword (pwdCredential cred,String token){
+       JSONObject obj = new JSONObject();
+           logintoken= new LoginToken(); 
+           checksum = new MD5Checksum();
+         tokendetails tkn=logintoken.parseJWT(token);
+         membercontroller = new MemberpassJpaController();
+        
+     try {       
+            memberpass =  membercontroller.findMemberDetails(tkn.getUsername());
+            
+         
+            if (checksum.Checkhash(memberpass.getPasswrd(), cred.getOldpwd())){
+                
+                String pwdHash = checksum.hashPassword (cred.getNewpwd());
+               int Status  =membercontroller.UpdatePwd(pwdHash, tkn.getUsername());
+                if (Status == 1){
+                System.out.println("password Changed");
+                          obj.put("status", Status);
+                          obj.put("msg", "Password Changed  ");
+                }else {
+                          obj.put("status", 2);
+                          obj.put("msg", "Error Updating Password  ");
+                }
+            }
+            else {
+                System.out.println("Password do not Match"); 
+                         obj.put("status", 2);
+                          obj.put("msg", "Error Occured");
+                          obj.put("Exception", "Password do not Match");
+            }
+            
+     }
+     catch(Exception ex){
+         System.out.println("Password Errror "); 
+         ex.printStackTrace();
+                          obj.put("status", 2);
+                          obj.put("msg", "Error Occured");
+                          obj.put("Exception", ex.toString());
+     }
+       return obj.toString();
+   }
 }

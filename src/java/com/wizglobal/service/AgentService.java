@@ -36,6 +36,14 @@ public class AgentService {
       
      return  agentsJpaController.findAgentbyagentnumber(tkn.getMemberno());
   }
+  
+ public Agents getCustomerAgent(String token,String agentid){
+       agentsJpaController= new AgentsJpaController();
+          loginToken= new LoginToken();     
+          tkn=loginToken.parseJWT(token);
+      
+     return  agentsJpaController.findAgentbyagentnumber(agentid);
+ }
   public List<AgentAccountList>   getCustomerList(String token){
           Accctrl= new AccountsJpaController();
           loginToken= new LoginToken();     

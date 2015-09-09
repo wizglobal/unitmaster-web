@@ -161,8 +161,33 @@ StaffMngt.controller('Feedbackctrl', function ($scope,$window,staffFactory,ngDia
            }       
     
 });
-StaffMngt.controller('changepasswordctrl', function ($scope,$window) {
-    
+StaffMngt.controller('changepasswordctrl', function ($scope,$window,ngDialog) {
+     $scope.SubmitPwd=function(){
+        var changepwd={};
+          changepwd.oldpwd=$scope.pwd.currentpassword;
+          changepwd.newpwd=$scope.pwd.newpassword;
+        customerFactory.changePwd(changepwd)
+           .success(function(data) {
+                if (data.status !=2){ 
+                 ngDialog.open({
+                    template: '<p>Password Changed  </p>',
+                    plain: true
+                                });
+                            }
+                  else {
+                        ngDialog.open({
+                            template: '<p>Error Updating Password </p>',
+                            plain: true
+                                });
+                  }          
+           })
+          .error(function(data) {
+              ngDialog.open({
+                    template: '<p>Error on Changing Password,kindly Retry later </p>',
+                    plain: true
+                                });
+           });  
+    }
 });
 StaffMngt.controller('aboutctrl', function ($scope,$window) {
     

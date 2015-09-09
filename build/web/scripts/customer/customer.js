@@ -58,8 +58,7 @@ CustomerMngt.controller('Feedbackctrl', function ($scope,$window,customerFactory
     customerFactory.getFeedbacks()
     .success(function(data) {
 		  $scope.feedbacks=data;
-                //  console.log("feedbacks");
-                //  console.log(data);
+                       
                   }) 
 		.error(function(data) {
 		  $scope.feedbacks=[];	
@@ -78,7 +77,34 @@ CustomerMngt.controller('Feedbackctrl', function ($scope,$window,customerFactory
                 });
       }             
 });
-CustomerMngt.controller('changepasswordctrl', function ($scope,$window) {
+CustomerMngt.controller('changepasswordctrl', function ($scope,$window,customerFactory,ngDialog) {
+    
+    $scope.SubmitPwd=function(){
+        var changepwd={};
+          changepwd.oldpwd=$scope.pwd.currentpassword;
+          changepwd.newpwd=$scope.pwd.newpassword;
+        customerFactory.changePwd(changepwd)
+           .success(function(data) {
+                if (data.status !=2){ 
+                 ngDialog.open({
+                    template: '<p>Password Changed  </p>',
+                    plain: true
+                                });
+                            }
+                  else {
+                        ngDialog.open({
+                            template: '<div> <p>Error Chaging Your  Password </p><p>Invalid Current Password</p></div>',
+                            plain: true
+                                });
+                  }          
+           })
+          .error(function(data) {
+              ngDialog.open({
+                    template: '<p>Error on Changing Password,kindly Retry later </p>',
+                    plain: true
+                                });
+           });  
+    }
     
 });
 
@@ -88,24 +114,35 @@ CustomerMngt.controller('aboutctrl', function ($scope,$window) {
 CustomerMngt.controller('helpctrl', function ($scope,$window) {
     
 });
-CustomerMngt.controller('sendfeedbackctrl', function ($scope,$window,CustomerDetails,customerFactory) {
+CustomerMngt.controller('sendfeedbackctrl', function ($scope,$window,CustomerDetails,customerFactory,ngDialog) {
   //  console.log("Member details ");
    //  console.log(CustomerDetails.get());
     $scope.SubmitFeedback=function(feedback){
-    //     console.log("Feedback");
-    // console.log(feedback);
         customerFactory.postFeedback(feedback)
                 .success(function(data) {
 		          if (data.status !=2){                 
-                                  alert(data.msg);
+                                  ngDialog.open({
+                                    template: '<p>Feedback Received </p>',
+                                    plain: true
+                                });
+                                 $scope.feedback="";
                                   }
                                   else {
-                                      alert(data.Exception);
+                                    //  alert(data.Exception);
+                                     ngDialog.open({
+                                    template: '<p>An Error Occurred Posting Your Feedback</p><p>Kindly Retry later</p>',
+                                    plain: true
+                                });
+                                $scope.feedback="";
 
                                   }
                   }) 
 		.error(function(data) {
-		  alert(data)	;
+		         //  alert(data)	;
+                                   ngDialog.open({
+                                    template: '<p>An Error Occurred Posting Your Feedback</p><p>Kindly Retry later</p>',
+                                    plain: true
+                                });
 		  });
     }
     
@@ -113,11 +150,16 @@ CustomerMngt.controller('sendfeedbackctrl', function ($scope,$window,CustomerDet
 
 CustomerMngt.controller('accountstatementctrl', function ($scope,$window,customerFactory,$route) {
      $scope.accountnumber=angular.fromJson(atob($route.current.params.accountnumber));
-    
-           customerFactory.getAccountTransaction($scope.accountnumber)
+   
+           customerFactory.getAccountTransaction($scope.accountnumber.accno,$scope.accountnumber.securitycode)
 						 .success(function(data) {
-							$scope.transactions=data;
-                          
+                                 
+							$scope.transactions=angular.fromJson(data.Transactions);
+                                                        $scope.market_value=data.market_value;
+                                                        $scope.tpurchaseunit=data.tpurchaseunit;
+                                                        $scope.Tsoldunits=data.Tsoldunits;
+                                                        $scope.balance_units=data.balance_units;
+                                                      
 							 }) 
 						 .error(function(data) {
 							details=[];	
@@ -128,12 +170,13 @@ CustomerMngt.controller('accountstatementctrl', function ($scope,$window,custome
         }                                                 
 });
 
-CustomerMngt.controller('agentdetailsctrl', function ($scope,customerFactory,$route) {
+CustomerMngt.controller('agentdetailsctrl', function ($scope,customerFactory,$route,CustomerDetails) {
     
     $scope.agentcode=angular.fromJson(atob($route.current.params.agentcode));
     
                                             customerFactory.getAgentDetails($scope.agentcode)
 						 .success(function(data) {
+                                                    
 							$scope.agentdetails=data;
                                                 CustomerDetails.save(data);
 							 }) 
@@ -157,7 +200,7 @@ CustomerMngt.controller('homectrl', function ($scope,$window,customerFactory,Cus
                                    customerFactory.getCustomerAccounts()
 						 .success(function(data) {
 							$scope.memberaccounts=data;
-                                              
+                                           
 							 }) 
 						 .error(function(data) {
 							accounts=[];	
@@ -178,8 +221,12 @@ CustomerMngt.controller('homectrl', function ($scope,$window,customerFactory,Cus
          }   
          
          
-         $scope.ViewAccount=function(accountnumber){
-             	var det = angular.toJson(accountnumber);
+         $scope.ViewAccount=function(accountnumber,SECURITY_CODE){
+     
+             var act={};
+                    act.accno=accountnumber;
+                    act.securitycode=SECURITY_CODE;
+             	var det = angular.toJson(act);
                    det=btoa(det);
              $location.path('/accountstatement/'+det);
          }   
@@ -261,10 +308,10 @@ CustomerMngt.factory('customerFactory', ['$http',function($http) {
 		     return $http.get('/Web/rest/beneficiary/memberBeneficiary',{ cache: true });
             },
             getAgentDetails:function (agentnumber) {
-		     return $http.get('/Web/rest/agent/agentdetails/'+agentnumber);
+		     return $http.get('/Web/rest/agent/CustomerAgentDetails?agentid='+agentnumber);
             },
-            getAccountTransaction:function (accountnumber) {
-		     return $http.get('/Web/rest/transaction/account/'+accountnumber);
+            getAccountTransaction:function (accountnumber,securitycode) {
+		     return $http.get('/Web/rest/transaction/account?accountnumber='+accountnumber +" &securitycode=" +securitycode);
             },
            getCustomerBankDetails:function () {
 		     return $http.get('/Web/rest/member/Bankdetails',{ cache: true });
@@ -273,10 +320,13 @@ CustomerMngt.factory('customerFactory', ['$http',function($http) {
 		     return $http.get('/Web/rest/feedback/memberfeedback',{ cache: true });
             },
              postFeedback:function (feedback) {
-                 console.log(feedback);
+               //  console.log(feedback);
 		     return $http.post('/Web/rest/feedback/createFeedback',feedback);
                },
-            
+               changePwd:function (credentials) {
+                 
+		     return $http.post('/Web/rest/authentication/changepassword',credentials);
+               },
           
             logout:function () {
 		     return $http.get('/web/logout');
@@ -284,7 +334,50 @@ CustomerMngt.factory('customerFactory', ['$http',function($http) {
 	}
 	return data;
 }]);
+CustomerMngt.service('CalculateTotal', function () {
+    var Total={};
+    this.calculate=function(data){
+       var  unitspurchased,market_value =0;
+       var  tpurchase,unitssold,salesamount,Tsoldunits,salestotals =0;
+      
+         for (var k=0;k < data.length;k++){
+             if (data[k].transType ==="PURCHASE")
+             {
+                unitspurchased =data[k].noofshares;
+                tpurchase=tpurchase+unitspurchased;
+             }
+               if (data[k].transType ==="WITHDRAWAL")
+             {
+                 unitssold=data[k].noofshares;
+                 salesamount=data[k].amount;
+                 Tsoldunits=Tsoldunits+ unitssold;
+                 salestotals=salestotals+salesamount;
+             }
+         }
+      
+        Total.tpurchase=tpurchase;
+        Total.Tsoldunits=Tsoldunits;
+        Total.salestotals=salestotals;
+        console.log("the total id ");
+        console.log(Total);
+            return Total;
+    }
 
+});
+CustomerMngt.directive('pwCheck', function() {
+        return {
+            require: 'ngModel',
+            link: function (scope, elem, attrs, ctrl) {
+                var firstPassword = '#' + attrs.pwCheck;
+                $(elem).add(firstPassword).on('keyup', function () {
+                    scope.$apply(function () {
+                        var v = elem.val()===$(firstPassword).val();
+                        ctrl.$setValidity('pwcheck', v);
+                    });
+                });
+            }
+        }
+    });
 
 CustomerMngt.service('CustomerDetails', function () {
 

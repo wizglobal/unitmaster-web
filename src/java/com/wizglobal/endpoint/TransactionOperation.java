@@ -16,6 +16,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -27,13 +28,13 @@ public class TransactionOperation {
     TransactionService trxn;
     
     @GET
-    @Path("account/{accountnumber}")
+    @Path("account")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public List<Trans>  getAccountTransactions(@PathParam("accountnumber") String accountnumber) throws AppException{
+    public String  getAccountTransactions(@QueryParam(value = "accountnumber") String accountnumber,@QueryParam(value = "securitycode") String securitycode) throws AppException{
      
      trxn = new  TransactionService();
       try {
-             return trxn.listaccounttransactions(accountnumber);
+             return trxn.listaccounttransactions(accountnumber,securitycode);
       }catch (Exception ex){
            throw new  AppException(Response.Status.CONFLICT.getStatusCode(), 500, 
 					ex.toString(), AppConstants.BLOG_POST_URL);
