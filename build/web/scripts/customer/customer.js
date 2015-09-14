@@ -114,13 +114,26 @@ CustomerMngt.controller('aboutctrl', function ($scope,$window) {
 CustomerMngt.controller('helpctrl', function ($scope,$window) {
     
 });
+CustomerMngt.controller('unitizedctrl', function ($scope,$window,statement) {
+      $scope.accttransaction=angular.fromJson(statement.getStatement().transaction);
+       $scope.transummary=statement.getStatement().summary;
+         console.log($scope.accttransaction);
+});
+CustomerMngt.controller('interestBasedctrl', function ($scope,$window,statement) {
+         $scope.accttransaction=angular.fromJson(statement.getStatement().transaction);
+         $scope.transummary=statement.getStatement().summary;
+         console.log("Transa Summary ");
+         console.log($scope.transummary);
+        
+    
+});
 CustomerMngt.controller('sendfeedbackctrl', function ($scope,$window,CustomerDetails,customerFactory,ngDialog) {
   //  console.log("Member details ");
    //  console.log(CustomerDetails.get());
     $scope.SubmitFeedback=function(feedback){
         customerFactory.postFeedback(feedback)
                 .success(function(data) {
-		          if (data.status !=2){                 
+		          if (data.status !==2){                 
                                   ngDialog.open({
                                     template: '<p>Feedback Received </p>',
                                     plain: true
@@ -148,17 +161,20 @@ CustomerMngt.controller('sendfeedbackctrl', function ($scope,$window,CustomerDet
     
 });
 
-CustomerMngt.controller('accountstatementctrl', function ($scope,$window,customerFactory,$route) {
+CustomerMngt.controller('accountstatementctrl', function ($scope,$window,customerFactory,$route,statement,$location) {
      $scope.accountnumber=angular.fromJson(atob($route.current.params.accountnumber));
    
            customerFactory.getAccountTransaction($scope.accountnumber.accno,$scope.accountnumber.securitycode)
 						 .success(function(data) {
-                                 
-							$scope.transactions=angular.fromJson(data.Transactions);
-                                                        $scope.market_value=data.market_value;
-                                                        $scope.tpurchaseunit=data.tpurchaseunit;
-                                                        $scope.Tsoldunits=data.Tsoldunits;
-                                                        $scope.balance_units=data.balance_units;
+                                                          console.log("Transaction data");
+                                                           console.log(data);
+                                                           statement.saveStatement(data);
+                                                           if (data.statementtype=="interest"){
+                                                                 $location.path('/interestBased');
+                                                           }else if (data.statementtype=="unitized"){
+                                                                 $location.path('/unitized');
+                                                           }
+                                                           
                                                       
 							 }) 
 						 .error(function(data) {
@@ -275,6 +291,14 @@ $locationProvider.hashPrefix("!");
      templateUrl: 'views/customer/accountstatement.html',   
       controller: 'accountstatementctrl' 
         })
+     .when('/interestBased', {
+     templateUrl: 'views/customer/interestBased.html',   
+      controller: 'interestBasedctrl' 
+        })   
+     .when('/unitized', {
+     templateUrl: 'views/customer/unitized.html',   
+      controller: 'unitizedctrl' 
+        })     
      .when('/about', {
      templateUrl: 'views/common/about.html',   
       controller: 'aboutctrl' 
@@ -334,35 +358,14 @@ CustomerMngt.factory('customerFactory', ['$http',function($http) {
 	}
 	return data;
 }]);
-CustomerMngt.service('CalculateTotal', function () {
-    var Total={};
-    this.calculate=function(data){
-       var  unitspurchased,market_value =0;
-       var  tpurchase,unitssold,salesamount,Tsoldunits,salestotals =0;
-      
-         for (var k=0;k < data.length;k++){
-             if (data[k].transType ==="PURCHASE")
-             {
-                unitspurchased =data[k].noofshares;
-                tpurchase=tpurchase+unitspurchased;
-             }
-               if (data[k].transType ==="WITHDRAWAL")
-             {
-                 unitssold=data[k].noofshares;
-                 salesamount=data[k].amount;
-                 Tsoldunits=Tsoldunits+ unitssold;
-                 salestotals=salestotals+salesamount;
-             }
-         }
-      
-        Total.tpurchase=tpurchase;
-        Total.Tsoldunits=Tsoldunits;
-        Total.salestotals=salestotals;
-        console.log("the total id ");
-        console.log(Total);
-            return Total;
-    }
-
+CustomerMngt.service('statement', function () {
+    var statement;
+        this.saveStatement=function (stmt){
+           statement=stmt;
+        }
+        this.getStatement=function(){
+            return statement;
+        }
 });
 CustomerMngt.directive('pwCheck', function() {
         return {

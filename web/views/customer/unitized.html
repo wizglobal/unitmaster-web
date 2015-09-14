@@ -1,0 +1,65 @@
+<div class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Account Statement</h3>
+
+        </div>
+        <div class="panel-body">
+            
+         
+            <div class="table-responsive">
+            <table class="table table-bordered ">
+                <tr>  
+                    <td colspan="2"><b>DETAILS</b></td>
+                    <td colspan="3"><b>PURCHASES</b></td>
+                    <td colspan="3"><b>SALES</b></td>
+                    <td colspan="2"><b>BALANCE</b></td>
+                </tr>
+                <tr>     
+                    <td>R.No</td>
+                    <td>T Date</td>
+                    <td>Units</td>
+                    <td>Price</td>
+                    <td>cost</td>
+                    <td>Units</td>
+                    <td>price</td>
+                    <td>cost</td>
+                    <td>Units</td>
+                    <td>current Nav</td>
+                </tr>
+                <tbody>
+                    <tr ng-repeat="tran in accttransaction">
+                            <td >{{ tran.tranid }}</td>
+                            <td>{{ tran.trandate }}</td>
+                            <td>{{ tran.unitspurchased }}</td>
+                            <td>{{ tran.purchaseprice }}</td>
+                            <td>{{ tran.purchasecost }}</td>
+                            <td>{{ tran.unitssold }}</td>
+                            <td>{{ tran.saleprice }}</td>
+                            <td>{{ tran.salesamount }}</td>
+                            <td>{{ tran.balance_units }}</td>
+                            <td>{{ tran.navamount }}</td>
+                            
+                            
+                            
+                    </tr>
+                </tbody>
+                <tr>
+                    <td colspan="2"><b>Summary</b></td>           
+                    <td colspan="2"><b>{{transummary.tpurchaseunit}}</b></td>              
+                    <td colspan="1"><b>{{transummary.Tpurchasecost}}</b></td>
+                    <td colspan="2"><b>{{transummary.Tsoldunits}}</b></td>
+                    <td colspan="1"><b>{{transummary.TSalecost}}</b></td>
+                    <td colspan="1"><b>{{transummary.Tbalance_units}}</b></td>
+                    <td colspan="1"><b>{{transummary.navamount}}</b></td>
+               </tr>
+               <br>
+                    <tr>
+                      <td colspan="8"><b>Market Value of Shares</b></td>
+                      <td ><b>{{transummary.market_value}}</b></td>
+                    </tr>
+            </table>
+            </div>      
+        </div>
+    </div>
+</div>    

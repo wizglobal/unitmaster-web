@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<div class="row">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Statement</h3>
+
+        </div>
+        <div class="panel-body">
+             <div class="table-responsive">
+            <table class="table table-hover  table-bordered ">   
+                    <tr>
+                      <th class="col-md-1">R.No</th>
+                      <th class="col-md-3">T DATE<br></th>
+                      <th class="col-md-1">DEPOSIT</th>
+                      <th class="col-md-2">INTEREST</th>
+                      <th class="col-md-2">WITHDRAWAL</th>
+                      <th class="col-md-2">WITHHOLDING TAX</th>
+                      <th class="col-md-2">RUNNING BALANCE</th>
+                      
+                    </tr>
+                    <tbody>
+                       <tr ng-repeat="tran in accttransaction">
+                            <td >{{ tran.tranid }}</td>
+                            <td>{{ tran.trandate }}</td>
+                            <td >{{ tran.purchaseamount}}</td>
+                            <td >{{ tran.interestamount}}</td>
+                            <td >{{ tran.withdrawalamount}}</td>
+                             <td >{{ tran.withholding_tax}}</td>
+                            <td >{{ tran.running_bal}}</td>
+                          
+                  
+                          </tr>
+                          <tr>
+                              <td colspan="2"><b>Summary</b></td>
+                              <td colspan="1"><b>{{transummary.Tpurchaseamount}}</b></td>
+                            <td colspan="1"><b>{{transummary.Tinterestamount}}</b></td>
+                            <td colspan="1"><b>{{transummary.Twithdrawalamount}}</b></td>
+                            <td colspan="1"><b>{{transummary.Twithholding_tax}}</b></td>
+                            <td colspan="1"><b>{{transummary.Trunning_bal}}</b></td>
+                          </tr>
+                          </tbody>
+                         
+                          
+                        </table>         
+                
+             </div>
+                
+                
+      
+        </div> 
+    </div>
+</div>  
