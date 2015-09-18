@@ -1,4 +1,5 @@
 <div class="row">
+    <div class ="col-md-12">
     <div class="panel panel-info">
   <div class="panel-heading">
     <h3 class="panel-title">THESE NAV's HAVE NOT BEEN CONFIRMED.</h3>
@@ -6,7 +7,7 @@
     <div class="clearfix"></div>
   </div>
   <div class="panel-body">
-      
+   <div class="table-responsive">   
      <table class="table table-hover table-condensed table-responsive">
     <thead>
       <tr>
@@ -26,15 +27,18 @@
                     <td>{{ nav.navDate }} </td>
                       <td>{{ nav.securityCode }}</td>
                     <td>{{ nav.amount }}  </td>
-                      <td>{{ nav.pPrice }}</td>
+                      <td>{{ nav.PPrice }}</td>
                     <td>{{ nav.admFee }} </td>
                       <td>{{ nav.staffname }}</td>
-                    <td><a href="#" >Confirm </a></td>   
+                    <td><button class="btn btn-warning"  ng-click="viewDetails(nav)" >view Details .. </button></td>   
                       
                   </tr>
     </tbody>
   </table>
+   </div>
         <dir-pagination-controls   max-size="4"  direction-links="true"  boundary-links="true" >  </dir-pagination-controls>
   </div>
+</div>
+    </div>
 </div>
     

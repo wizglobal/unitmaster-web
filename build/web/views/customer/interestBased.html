@@ -5,6 +5,8 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <div class="row">
+    <div class ="col-md-12">
+        
     <div class="panel panel-info">
         <div class="panel-heading">
           <h3 class="panel-title">Statement</h3>
@@ -26,7 +28,7 @@ and open the template in the editor.
                     <tbody>
                        <tr ng-repeat="tran in accttransaction">
                             <td >{{ tran.tranid }}</td>
-                            <td>{{ tran.trandate }}</td>
+                            <td>{{ tran.trandate}}</td>
                             <td >{{ tran.purchaseamount}}</td>
                             <td >{{ tran.interestamount}}</td>
                             <td >{{ tran.withdrawalamount}}</td>
@@ -55,3 +57,4 @@ and open the template in the editor.
         </div> 
     </div>
 </div>  
+</div>

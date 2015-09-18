@@ -1,12 +1,15 @@
 <div class="row">
+    <div class="col-sm-12">  
     <div class="panel panel-info">
   <div class="panel-heading">
-    <h3 class="panel-title">THESE ARE THE FEEDBACKS YOU HAVE SENT TO US OVER THE PAST FEW DAYS</h3>
-    
+    <h4 class="panel-title">THESE ARE THE FEEDBACKS YOU HAVE SENT TO US OVER THE PAST FEW DAYS</h4>
+        <a href="#!/Sendfeedback" class="btn btn-error btn-primary pull-right" ng-click="giveViews()">Give us Your Views</a>
+        <div class="clearfix"></div>
   </div>
   <div class="panel-body">
-      <a href="#!/Sendfeedback" class="btn btn-error btn-primary pull-right" ng-click="giveViews()">Give us Your Views</a>
-     <table class="table table-hover table-condensed table-responsive">
+  
+      <div class="table-responsive">
+      <table class="table table-hover table-condensed ">
     <thead>
       <tr>
         <th>ID</th>
@@ -27,8 +30,10 @@
                   </tr>
     </tbody>
   </table>
+      </div>        
        <dir-pagination-controls   max-size="4"  direction-links="true"  boundary-links="true" >  </dir-pagination-controls>
   </div>
 </div>
+</div>   
 </div>    
     

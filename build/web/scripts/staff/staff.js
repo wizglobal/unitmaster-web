@@ -121,8 +121,7 @@ StaffMngt.controller('Feedbackctrl', function ($scope,$window,staffFactory,ngDia
       staffFactory.getFeedbacks()
                 .success(function(data) {
 		  $scope.feedbacks=data;
-                  console.log("feedbacks");
-                  console.log(data);
+         
                   }) 
 		.error(function(data) {
 		  $scope.feedbacks=[];	
@@ -141,7 +140,8 @@ StaffMngt.controller('Feedbackctrl', function ($scope,$window,staffFactory,ngDia
                     
                      staffFactory.updateFeedback(det)
                            .success(function(data) {
-                                 if (data.status !=2){                 
+                                 if (data.status !=2){  
+                                      $scope.feedbacks.splice($scope.feedbacks.indexOf(feedback),1);
                                   alert(data.msg);
                                   }
                                   else {
@@ -199,7 +199,7 @@ StaffMngt.controller('userRegistrationctrl', function ($scope,$window) {
     
 });
 
-StaffMngt.controller('confirmInterestsctrl', function ($scope,$window,staffFactory) {
+StaffMngt.controller('confirmInterestsctrl', function ($scope,$window,staffFactory,ngDialog) {
     staffFactory.getUnconfirmedInterest()
               .success(function(data) {
 			    	 $scope.Interests =data;
@@ -207,10 +207,44 @@ StaffMngt.controller('confirmInterestsctrl', function ($scope,$window,staffFacto
 				 .error(function(data) {
 				   $scope.Interests =[];
 					});
+                                        
+                    
+                   
+       $scope.viewDetails =function(irate){
+         console.log(irate);
+        $scope.irate=irate;
+                ngDialog.openConfirm({
+                    template: 'iratetmpl',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                }).then(function (value) {
+                                                             
+                      staffFactory.updateIrate($scope.irate)
+                           .success(function(data) {
+                                 if (data.status !=2){
+                                     $scope.Interests.splice($scope.Interests.indexOf($scope.irate),1);
+                                  alert(data.msg);
+                                  }
+                                  else {
+                                      alert(data.Exception);
+
+                                  }
+                               }) 
+                           .error(function(data) {
+                                console.log(data);
+
+                                });
+                    
+                    
+                }, function (reason) {
+                    console.log('Modal promise rejected. Reason: ', reason);
+                });
+     }                       
+                                        
 });
 
 
-StaffMngt.controller('confirmTransactionsctrl', function ($scope,$window,staffFactory) {
+StaffMngt.controller('confirmTransactionsctrl', function ($scope,$window,staffFactory,ngDialog) {
         staffFactory.getUnconfirmedTransactions()
               .success(function(data) {
 			    	 $scope.transactions =data;
@@ -218,17 +252,83 @@ StaffMngt.controller('confirmTransactionsctrl', function ($scope,$window,staffFa
 				 .error(function(data) {
 				   $scope.transactions =[];
 					});
+                                        
+                                        
+         $scope.viewDetails =function(transaction){
+         console.log(transaction);
+        $scope.trans=transaction;
+                ngDialog.openConfirm({
+                    template: 'trantmpl',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                }).then(function (value) {
+                                                             
+                      staffFactory.ConfirmTransaction($scope.trans)
+                           .success(function(data) {
+                                 if (data.status !=2){
+                                     $scope.transactions.splice($scope.transactions.indexOf($scope.trans),1);
+                                  alert(data.msg);
+                                  }
+                                  else {
+                                      alert(data.Exception);
+
+                                  }
+                               }) 
+                           .error(function(data) {
+                                console.log(data);
+
+                                });
+                    
+                    
+                }, function (reason) {
+                    console.log('Modal promise rejected. Reason: ', reason);
+                });
+     }                                    
 });
 
 
-StaffMngt.controller('confirmNavsctrl', function ($scope,$window,staffFactory) {
+StaffMngt.controller('confirmNavsctrl', function ($scope,$window,staffFactory, ngDialog) {
     staffFactory.getUnconfirmedNavs()
               .success(function(data) {
-			    	 $scope.members=data;
+                    console.log("nav data");
+             console.log(data);
+			    	 $scope.navs=data;
 					}) 
 				 .error(function(data) {
-				   $scope.members=[];
+				   $scope.navs=[];
 					});
+       $scope.viewDetails =function(nav){
+         console.log(nav);
+        $scope.nav=nav;
+                ngDialog.openConfirm({
+                    template: 'navtmpl',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                }).then(function (value) {
+                                                             
+                      staffFactory.Confirmnav($scope.nav)
+                           .success(function(data) {
+                                 if (data.status !=2){
+                                     $scope.navs.splice($scope.navs.indexOf($scope.nav),1);
+                                  alert(data.msg);
+                                  }
+                                  else {
+                                      alert(data.Exception);
+
+                                  }
+                               }) 
+                           .error(function(data) {
+                                console.log(data);
+
+                                });
+                    
+                    
+                }, function (reason) {
+                    console.log('Modal promise rejected. Reason: ', reason);
+                });
+     }                                                  
+                                        
+                                        
 });
 
 
@@ -244,18 +344,19 @@ StaffMngt.controller('confirmMembersctrl', function ($scope,$window,staffFactory
 					});
                                         
      $scope.viewDetails =function(member){
-         console.log(member);
+        
         $scope.memb=member;
                 ngDialog.openConfirm({
                     template: 'templateId',
                     className: 'ngdialog-theme-default',
                     scope: $scope
                 }).then(function (value) {
-                     var det={};
+                    
                                           
                        staffFactory.confirmMember(member)
                            .success(function(data) {
-                                 if (data.status !=2){                 
+                                 if (data.status !=2){ 
+                                $scope.members.splice($scope.members.indexOf(member),1);
                                   alert(data.msg);
                                   }
                                   else {
@@ -302,7 +403,8 @@ StaffMngt.controller('registerCustomerctrl', function ($scope,$window,staffFacto
         
                         staffFactory.registerUsers(userdetails)
                            .success(function(data) {
-                                 if (data.status !=2){                 
+                                 if (data.status !=2){   
+                                      $scope.members.splice($scope.members.indexOf(member),1);
                                   alert(data.msg);
                                   }
                                   else {
@@ -350,7 +452,8 @@ StaffMngt.controller('registerAgentctrl', function ($scope,$window,staffFactory,
         
                         staffFactory.registerUsers(userdetails)
                            .success(function(data) {
-                                 if (data.status !=2){                 
+                                 if (data.status !=2){  
+                                       $scope.agents.splice($scope.agents.indexOf(agent),1);
                                   alert(data.msg);
                                   }
                                   else {
@@ -395,7 +498,8 @@ StaffMngt.controller('registerStaffctrl', function ($scope,$window,staffFactory,
         
                         staffFactory.registerUsers(userdetails)
                            .success(function(data) {
-                                 if (data.status !=2){                 
+                                 if (data.status !=2){  
+                                      $scope.staffs.splice($scope.staffs.indexOf(staff),1);
                                   alert(data.msg);
                                   }
                                   else {
@@ -447,40 +551,53 @@ StaffMngt.factory('staffFactory', ['$http',function($http) {
 		     return $http.get('/Web/rest/staff/Profile',{ cache: true });
             },
              getUnregisteredCustomers:function () {
-		     return $http.get('/Web/rest/staff/UnregisteredCustomers',{ cache: true });
+		     return $http.get('/Web/rest/staff/UnregisteredCustomers');
             },
               getUnregisteredAgents:function () {
-		     return $http.get('/Web/rest/staff/UnregisteredAgents',{ cache: true });
+		     return $http.get('/Web/rest/staff/UnregisteredAgents');
             },
              getUnconfirmedMembers:function () {
-		     return $http.get('/Web/rest/staff/UnconfirmedMembers',{ cache: true });
+		     return $http.get('/Web/rest/staff/UnconfirmedMembers');
             },     
               getUnconfirmedNavs:function () {
-		     return $http.get('/Web/rest/staff/UnconfirmedNavs',{ cache: true });
+		     return $http.get('/Web/rest/staff/UnconfirmedNavs');
             },
               getUnregisteredStaff:function () {
-		     return $http.get('/Web/rest/staff/UnregisteredStaff',{ cache: true });
+		     return $http.get('/Web/rest/staff/UnregisteredStaff');
             },
               getUnconfirmedTransactions:function () {
-		     return $http.get('/Web/rest/staff/UnconfirmedTransactions',{ cache: true });
+		     return $http.get('/Web/rest/staff/UnconfirmedTransactions');
             },
                getUnconfirmedInterest:function () {
-		     return $http.get('/Web/rest/staff/UnconfirmedInterests',{ cache: true });
+		     return $http.get('/Web/rest/staff/UnconfirmedInterests');
             },
              registerUsers:function (userdetails) {
 		     return $http.post('/Web/rest/staff/RegisterUsers',userdetails);
                },
              confirmMember:function (details) {
-                 console.log(details);
+                
 		     return $http.post('/Web/rest/staff/ConfirmMember',details);
                },
-               
+               ConfirmTransaction:function (details) {
+                
+		     return $http.post('/Web/rest/transaction/ConfirmTransaction',details);
+               },
+                Confirmnav:function (details) {
+                
+		     return $http.post('/Web/rest/staff/updateNav',details);
+               },
                updateFeedback:function (feedback) {
                
 		     return $http.post('/Web/rest/staff/updateFeedback',feedback);
                },
+               updateIrate:function (irate) {
+               
+		     return $http.post('/Web/rest/staff/updateIrate',irate);
+               },
+               
+               
              getFeedbacks:function () {
-		     return $http.get('/Web/rest/staff/getFeedbacks',{ cache: true });
+		     return $http.get('/Web/rest/staff/getFeedbacks');
             },
             
             logout:function () {

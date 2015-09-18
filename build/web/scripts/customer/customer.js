@@ -161,7 +161,7 @@ CustomerMngt.controller('sendfeedbackctrl', function ($scope,$window,CustomerDet
     
 });
 
-CustomerMngt.controller('accountstatementctrl', function ($scope,$window,customerFactory,$route,statement,$location) {
+CustomerMngt.controller('accountstatementctrl', function ($scope,$window,customerFactory,$route,statement,$location, ngDialog) {
      $scope.accountnumber=angular.fromJson(atob($route.current.params.accountnumber));
    
            customerFactory.getAccountTransaction($scope.accountnumber.accno,$scope.accountnumber.securitycode)
@@ -178,7 +178,11 @@ CustomerMngt.controller('accountstatementctrl', function ($scope,$window,custome
                                                       
 							 }) 
 						 .error(function(data) {
-							details=[];	
+							details=[];
+                                                 ngDialog.open({
+                                    template: '<p>An Error Ocurred while Generating Your Statement ..</p><p>Kindly Retry Later..</</p><p>If it Persists  <a href="#!/feedback">Contact us </a> ..</p>',
+                                    plain: true
+                                });
 							 });
                                                          
         $scope.generatepdf=function(){
@@ -197,7 +201,8 @@ CustomerMngt.controller('agentdetailsctrl', function ($scope,customerFactory,$ro
                                                 CustomerDetails.save(data);
 							 }) 
 						 .error(function(data) {
-							details=[];	
+							details=[];
+                                                 
 							 });
 });
 

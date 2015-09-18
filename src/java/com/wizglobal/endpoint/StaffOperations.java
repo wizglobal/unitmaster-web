@@ -273,6 +273,42 @@ public class StaffOperations {
       }
     
   }
+    @POST
+    @Path("/updateNav")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String updateNav(@Context HttpHeaders headers,Navs  nav) throws AppException  {
+          Staffservice = new StaffService();
+        
+       
+         try {
+             String token =headers.getRequestHeader("token").get(0);
+          
+          return   Staffservice.ConfirmNav(token, nav.getNavId());
+         }  
+         catch(Exception ex){
+          throw new  AppException(Response.Status.CONFLICT.getStatusCode(), 500, 
+					ex.toString(), AppConstants.BLOG_POST_URL);
+      }
     
+  }
+    
+    @POST
+    @Path("/updateIrate")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String updateIrate(@Context HttpHeaders headers,IRates  irates) throws AppException  {
+          Staffservice = new StaffService();
+        
+       
+         try {
+             String token =headers.getRequestHeader("token").get(0);
+          
+          return   Staffservice.ConfirmIrates(token, irates.getRateId());
+         }  
+         catch(Exception ex){
+          throw new  AppException(Response.Status.CONFLICT.getStatusCode(), 500, 
+					ex.toString(), AppConstants.BLOG_POST_URL);
+      }
+    
+  }
    
 }

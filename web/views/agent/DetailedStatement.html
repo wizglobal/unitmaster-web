@@ -1,46 +1,43 @@
+
 <div class="row">
+    <div class ="col-md-12">
     <div class="panel panel-info">
-  <div class="panel-heading">
-    <h3 class="panel-title">Your Detailed Statement</h3>
-  </div>
-  <div class="panel-body">
-       <div class="pull-right"> <input placeholder="Search" class="input-sm" type="text" ng-model="names"></div>       
-        
-      
+        <div class="panel-heading">
+          <div class="panel-title">Your Customers List</div>
+            <div class="pull-right"> <input placeholder="Search" class="input-sm" type="text" ng-model="names"></div>  
+            <div class="clearfix"></div>
+        </div>
+  
+        <div class="panel-body">
+           
+            <div class="table-responsive">
      <table class="table table-hover table-condensed table-responsive">
     <thead>
-      <tr>
-        <th>TRANS_ID</th>
-        <th>TRANS_DATE</th>
-        <th>MEMBER_NO.</th>
-        <th>FULL_NAMES</th>
-        <th>ACCOUNT</th>
-        <th>PORTFOLIO</th>
-        <th>AMOUNT</th>
-        <th>NET_AMOUNT</th>
-        <th>COMMISION</th>
-        <th>RATE</th>
+      <tr>   
+        <th>MEMBER NO</th>
+        <th>ALL NAMES</th>
+        <th>POST ADDRESS</th>
+         <th>TOWN</th>
+        <th>MOBILE</th>
       </tr>
     </thead>
     <tbody>
-      <tr dir-paginate="tran in transactions | filter :names  | itemsPerPage:5">
-                     <td>{{ tran.transId }}</td>
-                    <td>{{ tran.transDate }}</td>
-                      <td>{{ tran.memberNo}}</td>
-                     <td>{{ tran.fullName }}</td>
-                    <td>{{ tran.accountNo}}</td>
-                     <td>{{ tran.portfolio }}</td>    
-                      <td>{{ tran.amount}}</td>
-                     <td>{{ tran.netamount }}</td>
-                    <td>{{ tran.amtvalue}}</td>
-                     <td>{{ tran.pervalue }}</td>
-                
-                   
-                     
+    <tr  dir-paginate="custlist in customerList | filter :names  | itemsPerPage:4">
+                    
+                    <td><a ng-click="viewCustomer(custlist)">{{ custlist.MEMBER_NO }}</a></td>
+                     <td>{{custlist.TITLE }} {{custlist.ALLNAMES}}</td>
+                      <td> {{custlist.POST_ADDRESS}}</td> 
+                      <td> {{custlist.TOWN}}</td>  
+                      <td> {{custlist.GSM_NO}}</td>  
                   </tr>
     </tbody>
   </table>
-        <dir-pagination-controls   max-size="5"  direction-links="true"  boundary-links="true" >  </dir-pagination-controls>
+            </div>        
+    <dir-pagination-controls   max-size="4"  direction-links="true"  boundary-links="true" >  </dir-pagination-controls>
   </div>
+     
+     </div>
+    </div>
+    
 </div>
     

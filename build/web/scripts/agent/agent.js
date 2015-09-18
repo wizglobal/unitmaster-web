@@ -43,30 +43,26 @@ AgentMngt.controller('Mainctrl', function ($scope,$window,agentFactory) {
                                     }
 
 });
-AgentMngt.controller('homectrl', function ($scope,$window,profile,customerList,agentSrv) {
-    $scope.profile=profile.data;
-    $scope.customerList=customerList.data
-    agentSrv.setCustomerDetails(customerList.data);
-    
+AgentMngt.controller('homectrl', function ($scope,$window,profile) {
+    $scope.profile=profile.data;   
     
     
 });
 AgentMngt.controller('viewCustomerctrl', function ($scope,$window,agentFactory) {
-    
+    $scope.viewCustomer=function(customer){
+        alert("customer");
+    }
 });
-AgentMngt.controller('detailedstatementctrl', function ($scope,$window,agentFactory) {
-    
-           agentFactory.getDetailedTransactions()
-                         .success(function(data) {
-                        
-			    	$scope.transactions=data;
-                           console.log(data);
-					}) 
-				 .error(function(data) {
-                                  
-				  $scope.transactions=[];
-					});
-    
+AgentMngt.controller('detailedstatementctrl', function ($scope,$window,agentFactory,customerList,$location) {
+        $scope.customerList=customerList.data
+           
+    $scope.viewCustomer=function(customer){
+        
+        var det = angular.toJson(customer);
+                   det=btoa(det);
+             $location.path('/agentdetatilstatement/'+det);
+        
+    }
 });
 AgentMngt.controller('statementctrl', function ($scope,$window,agentFactory) {
    
@@ -141,6 +137,27 @@ AgentMngt.controller('helpctrl', function ($scope,$window) {
 AgentMngt.controller('sendfeedbackctrl', function ($scope,$window) {
     
 });
+AgentMngt.controller('customerFeedbackctrl', function ($scope,$window) {
+    
+});
+AgentMngt.controller('agentdetatilstatementctrl', function ($scope,$window,$route,agentFactory) {
+    $scope.customerdetails=angular.fromJson(atob($route.current.params.customerdetails));
+    console.log($scope.customerdetails);
+    
+                agentFactory.getDetailedTransactions($scope.customerdetails.MEMBER_NO)
+                                         .success(function(data) {
+
+                            $scope.transactions=data;
+                                           console.log(data);
+                          }) 
+                         .error(function(data) {
+
+                          $scope.transactions=[];
+                          });
+    
+    console.log($scope.customerdetails);
+});
+
 
 
 AgentMngt.factory('agentFactory', ['$http',function($http) {
@@ -157,8 +174,8 @@ AgentMngt.factory('agentFactory', ['$http',function($http) {
            getTransactions:function () {
 		     return $http.get('/Web/rest/agent/agenttransactions',{ cache: true });
             }, 
-          getDetailedTransactions:function () {
-		     return $http.get('/Web/rest/agent/agentdetailedtransactions',{ cache: true });
+          getDetailedTransactions:function (memberno) {
+		     return $http.get('/Web/rest/agent/agentdetailedtransactions?memberno='+memberno);
             }, 
             }
 	return data;
@@ -214,8 +231,14 @@ $locationProvider.hashPrefix("!");
         })
     .when('/DetailsStatement', {
      templateUrl: 'views/agent/DetailedStatement.html',   
-      controller: 'detailedstatementctrl' 
-        })     
+      controller: 'detailedstatementctrl' ,
+       resolve: {		
+            customerList: function(agentFactory) {
+				return agentFactory.customerList();
+			}            
+	       }
+        })
+          
     .when('/statement', {
      templateUrl: 'views/agent/Statement.html',   
       controller: 'statementctrl' 
@@ -245,7 +268,10 @@ $locationProvider.hashPrefix("!");
      templateUrl: 'views/common/sendFeedback.html',   
       controller: 'sendfeedbackctrl' 
         })     
-        
+   .when('/agentdetatilstatement/:customerdetails', {
+     templateUrl: 'views/agent/agent_statement_detailed.html',   
+      controller: 'agentdetatilstatementctrl' 
+        })   
     .otherwise({
          redirectTo: '/home'
       });

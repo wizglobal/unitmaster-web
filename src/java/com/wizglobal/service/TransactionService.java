@@ -10,7 +10,16 @@ import com.wizglobal.Controller.SecuritiesJpaController;
 import com.wizglobal.Controller.TransJpaController;
 import com.wizglobal.entities.Securities;
 import com.wizglobal.entities.Trans;
+import com.wizglobal.helpers.tokendetails;
+import com.wizglobal.security.LoginToken;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 /**
@@ -20,12 +29,33 @@ import org.json.JSONObject;
 public class TransactionService {
     TransJpaController transJpaController;
     NavsJpaController navsJpaController;
+    LoginToken loginToken;
+    tokendetails tkn;
+    
+    public String ConfirmTransaction(String token,Integer tranid){
+        JSONObject respObj = new JSONObject();
+        transJpaController = new  TransJpaController();
+        
+              loginToken= new LoginToken();     
+             tkn=loginToken.parseJWT(token);
+        try {
+            int status=  transJpaController.ConfirmTransaction(tkn.getUsername(), tranid);
+                       respObj.put("status", status);
+                       respObj.put("msg", "Transaction Updated ");
+        }catch(Exception ex){
+                         respObj.put("status", 2);
+                         respObj.put("msg", "Error Occured");
+                         respObj.put("Exception", ex.toString());
+        }         
+              
+        return respObj.toString();
+    }
     public String listaccounttransactions(String accountnumber,String securitycode){
      JSONObject respObj = new JSONObject();
      TransactionService ts= new TransactionService();
       Double nav_amount;  
           Securities sec=ts.checkProducttype(securitycode);
-             System.out.println("Fund Type is " +sec.getFundtype());
+            
           
           Object[] navs = ts.querryNav(securitycode);
              if (navs[1].equals("")){
@@ -98,7 +128,7 @@ public class TransactionService {
     }
     
     private JSONObject interestbased(String accountnumber,Double nav_amount){
-        
+          TransactionService ts= new TransactionService();
        Double Tpurchaseamount=0.00;
        Double Tinterestamount=0.00;
        Double Twithdrawalamount=0.00;
@@ -123,7 +153,7 @@ public class TransactionService {
                        	if (tran.getTransType().equals("PURCHASE")){
                         
                                 obj.put("tranid", tran.getTransId());
-                                obj.put("trandate", tran.getTransDate());
+                                obj.put("trandate", ts.dateformat(tran.getTransDate()+""));
                                 obj.put("trantype", tran.getTransType());
                                 
                                 purchaseamount=tran.getAmount();
@@ -146,12 +176,12 @@ public class TransactionService {
                                   obj.put("withholding_tax",withholding_tax);
                                 Tpurchaseamount=Tpurchaseamount + purchaseamount;
                                 Twithholding_tax=Twithholding_tax + withholding_tax;
-                            arr.put(obj);    
+                              
                         }
                         else if (tran.getTransType().equals("WITHDRAWAL")){
                              
                                 obj.put("tranid", tran.getTransId());
-                                obj.put("trandate", tran.getTransDate());
+                                obj.put("trandate", ts.dateformat(tran.getTransDate()+""));
                                 obj.put("trantype", tran.getTransType());
                                 
                                  purchaseamount=0.0;
@@ -167,12 +197,12 @@ public class TransactionService {
                                   obj.put("withholding_tax",withholding_tax);
                                   Twithdrawalamount=Twithdrawalamount+withdrawalamount;
                                   Twithholding_tax=Twithholding_tax+withholding_tax;
-                                arr.put(obj);   
+                                
                         }
                         else if (tran.getTransType().equals("INTEREST")){
                         
                                 obj.put("tranid", tran.getTransId());
-                                obj.put("trandate", tran.getTransDate());
+                                obj.put("trandate", ts.dateformat(tran.getTransDate()+""));
                                 obj.put("trantype", tran.getTransType());
                                 purchaseamount=0.0;
                                    obj.put("purchaseamount", purchaseamount);
@@ -211,8 +241,8 @@ public class TransactionService {
     }
     
    private JSONObject unitized(String accountnumber,Double nav_amount){  
-       
-       System.out.println("Calaculating unitized ...");
+       TransactionService ts= new TransactionService();
+      
         transJpaController = new  TransJpaController();
         List<Trans> transactions=null;
         JSONObject obj;
@@ -235,7 +265,7 @@ public class TransactionService {
 			if (tran.getTransType().equals("PURCHASE")){
                          
                                 obj.put("tranid", tran.getTransId());
-                                obj.put("trandate", tran.getTransDate());
+                                obj.put("trandate", ts.dateformat(tran.getTransDate()+""));
                                 obj.put("navamount", nav_amount);
                                 obj.put("trantype", tran.getTransType());
                             unitpurchased=Double.parseDouble(tran.getNoofshares());
@@ -262,7 +292,7 @@ public class TransactionService {
                         }else if (tran.getTransType().equals("WITHDRAWAL")){
                             obj = new JSONObject();  
                              obj.put("tranid", tran.getTransId());
-                             obj.put("trandate", tran.getTransDate());
+                             obj.put("trandate", ts.dateformat(tran.getTransDate()+""));
                              obj.put("navamount", nav_amount);
                              obj.put("trantype", tran.getTransType());
                              unitpurchased=0.0;
@@ -314,5 +344,22 @@ public class TransactionService {
              ex.printStackTrace();
          }
        return respObj;
+   }
+   
+   private String dateformat (String dateStr){
+     String formatedDate="";
+        try {
+            DateFormat formatter = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+            Date date = (Date)formatter.parse(dateStr);
+            
+            
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+             formatedDate= cal.get(Calendar.DATE) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR);
+            
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return formatedDate      ;
    }
 }

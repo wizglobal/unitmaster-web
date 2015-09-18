@@ -100,13 +100,20 @@ public class AgentOperation {
      @GET
     @Path("agentdetailedtransactions")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public List<TransAgentComm> getDetailedTransactions(@Context HttpHeaders headers)  throws AppException{
+    public List<TransAgentComm> getDetailedTransactions(@Context HttpHeaders headers,@DefaultValue("Undefined") @QueryParam("memberno") String memberno)  throws AppException{
          String token =headers.getRequestHeader("token").get(0);
      
  
      AgentService  agent = new  AgentService ();
       try {
-          return agent.agentDetailedTransactions(token);
+          if (memberno.equals("Undefined")){
+            throw new  AppException(Response.Status.NO_CONTENT.getStatusCode(), 501, 
+					"Kindly pass the Member Number", AppConstants.BLOG_POST_URL);
+          
+          }else{
+          
+          return agent.agentDetailedTransactions(token,memberno);
+          }
       }catch(Exception ex){
           throw new  AppException(Response.Status.CONFLICT.getStatusCode(), 500, 
 					ex.toString(), AppConstants.BLOG_POST_URL);

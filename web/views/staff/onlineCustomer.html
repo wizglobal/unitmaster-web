@@ -1,33 +1,38 @@
 <div class="row">
-    <div class="panel panel-info">
-  <div class="panel-heading">
-    <h3 class="panel-title">Online Customers </h3>
-    <div class="pull-right">Search :<input type="text" ng-model="names"></div>
-    <div class="clearfix"></div>
-  </div>
-  <div class="panel-body">
-     <table class="table table-hover table-condensed table-responsive">
-    <thead>
-      <tr>
-        <th>REFERENCE NO</th>
-        <th>USERNAME</th>
-        <th>E MAIL</th>
-        <th>CATEGORY</th>
-        <th>RESET PASSWORD</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr dir-paginate="customer in customers | filter :names | orderBy:'category' | itemsPerPage:5 ">
-                     <td>{{ customer.refno }}</td>
-                    <td>{{ customer.username }}</td>
-                      <td>{{ customer.EMail}}</td>
-                     <td>{{ customer.category}}</td>
-                     <td><button class="btn btn-danger">Reset Password</button></td>
-                   
-                     
-                  </tr>
-    </tbody>
-  </table>
-      <dir-pagination-controls   max-size="5"  direction-links="true"  boundary-links="true" >  </dir-pagination-controls>
-  </div>
-</div>
+   <div class="col-sm-12">
+      <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title">Online Customers </h3>
+            <div class="pull-right">Search :<input type="text" ng-model="names"></div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="panel-body">
+              <div class="table-responsive">
+             <table class="table table-hover table-condensed ">
+            <thead>
+              <tr>
+                <th>REFERENCE NO</th>
+                <th>USERNAME</th>
+                <th>E MAIL</th>
+                <th>CATEGORY</th>
+                <th>RESET PASSWORD</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr dir-paginate="customer in customers | filter :names | orderBy:'category' | itemsPerPage:5 ">
+                             <td>{{ customer.refno }}</td>
+                            <td>{{ customer.username }}</td>
+                              <td>{{ customer.EMail}}</td>
+                             <td>{{ customer.category}}</td>
+                             <td><button class="btn btn-danger">Reset Password</button></td>
+
+
+                          </tr>
+            </tbody>
+          </table>
+              </div>
+              <dir-pagination-controls   max-size="5"  direction-links="true"  boundary-links="true" >  </dir-pagination-controls>
+          </div>
+   </div>
+   </div>    
+</div>  

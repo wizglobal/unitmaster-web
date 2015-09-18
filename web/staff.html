@@ -56,7 +56,7 @@
       
    <div class="container">
           <div class="row">
-             <div class="col-md-3">
+             <div class="col-md-3 col-sm-3">
                 <div class="list-group">
                     <a href="#" class="list-group-item active">Navigation</a>
                     <a href="#!/home" class="list-group-item">Home</a>
@@ -80,7 +80,7 @@
            
 
           
-           <div class="col-md-9 col-sm-12" data-ng-view >
+           <div class="col-md-9 col-sm-9" data-ng-view >
            </div>
        
           
@@ -95,7 +95,7 @@
                  <div class="container" >
                    <p>copyrights @Wizglobal 2015 </p>                     
           </div>
-
+   </div>
 
     <script src="lib/jquery/jquery-2.1.4.min.js"></script>
     <script src="lib/angular/angular.min.js"></script>
@@ -109,15 +109,15 @@
         <script type="text/ng-template" id="templateId">
              <div class="ngdialog-message">
             <h3>Confirm Member</h3>
-             <p>Member Number  {{ memb.memberNo }}</p>
-             <p>Member names  {{ memb.title }} {{ memb.allnames }}</p>
-             <p>Member Email  {{ memb.EMail }}</p>
-             <p>Member ID  {{ memb.idNo}}</p>
-             <p>Member D.O.B {{ memb.dob}}</p>
-             <p>Member Gender  {{ memb.gender }}</p>
-             <p>Member GSM No.  {{ memb.gsmNo }}</p>
-             <p>Member PostAddress  {{ memb.postAddress }}</p>
-             <p>Member Registration Date   {{ memb.regDate }}</p>
+             <p>Member Number  : {{ memb.memberNo }}</p>
+             <p>Member names  : {{ memb.title }} {{ memb.allnames }}</p>
+             <p>Member Email : {{ memb.EMail }}</p>
+             <p>Member ID  : {{ memb.idNo}}</p>
+             <p>Member D.O.B : {{ memb.dob}}</p>
+             <p>Member Gender : {{ memb.gender }}</p>
+             <p>Member GSM No. : {{ memb.gsmNo }}</p>
+             <p>Member PostAddress : {{ memb.postAddress }}</p>
+             <p>Member Registration Date :  {{ memb.regDate }}</p>
         </div>
         <div class="ngdialog-buttons">
             <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm('ok')">Confirm</button>
@@ -138,7 +138,60 @@
             <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('No')">Cancel</button>
         </div>
        </script>
+       
+        <script type="text/ng-template" id="trantmpl">
+             <div class="ngdialog-message">
+            <h3>Confirm Transactions</h3>
+             <p>Member Number  : {{ trans.memberNo }}</p>
+             <p>Member Names : {{ trans.fullName }}</p>
+             <p>Transaction ID  : {{ trans.transId}} </p>
+             <p>Transaction Type : {{ trans.transType }}</p>
+             <p>Transaction Date : {{ trans.transDate}}</p>
+             <p>Transaction Amount : {{ trans.amount }}</p>
+             <p>No.Shares : {{ trans.noofshares}}</p>
+             <p>Nav : {{ trans.nav}}</p>
+             <p>Price : {{ trans.price}}</p>
+             <p>Portfolio : {{ trans.portfolio}}</p>
+             <p>Account Number : {{ trans.accountNo}}</p>
+             <p>Posted By : {{ trans.UName}}</p>
+             <p>Remarks : {{ trans.remarks}}</p>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm('ok')">Confirm</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('No')">Cancel</button>
+        </div>
+       </script>
+       
+       <script type="text/ng-template" id="navtmpl">
+             <div class="ngdialog-message">
+            <h3>Confirm Nav</h3>
+             <p>Nav id  : {{ nav.navId }}</p>
+             <p>Nav Date : {{ nav.navDate }}</p>
+             <p>Nav Amount  : {{ nav.amount }} </p>
+             <p>Purchase Price  : {{ nav.PPrice }} </p>
+             <p>Security Name : {{ nav.secname }}</p>
+             <p>Security Code : {{ nav.securityCode }}</p>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm('ok')">Confirm</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('No')">Cancel</button>
+        </div>
+       </script>
 
+             <script type="text/ng-template" id="iratetmpl">
+             <div class="ngdialog-message">
+            <h3>Confirm Interest Rate</h3>
+             <p>Irate id  : {{ irate.rateId }}</p>
+             <p>Irate Date : {{ irate.rateDate }}</p>
+             <p>Rate  : {{ irate.rate }} </p>
+             <p>Security Name : {{ irate.secname }}</p>
+             <p>Security Code : {{ irate.securityCode }}</p>
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm('ok')">Confirm</button>
+            <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('No')">Cancel</button>
+        </div>
+       </script>
    
 </body>
 </html>

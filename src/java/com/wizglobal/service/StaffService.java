@@ -288,4 +288,42 @@ public class StaffService {
         }
         return obj.toString();
       }
+      
+ public String ConfirmNav(String token,Integer navid){
+        JSONObject respObj = new JSONObject();
+        navsJpaController = new  NavsJpaController();
+        
+              loginToken= new LoginToken();     
+             tkn=loginToken.parseJWT(token);
+        try {
+            int status=  navsJpaController.ConfirmNav(tkn.getUsername(), navid);
+                       respObj.put("status", status);
+                       respObj.put("msg", "Nav Updated ");
+        }catch(Exception ex){
+                         respObj.put("status", 2);
+                         respObj.put("msg", "Error Occured");
+                         respObj.put("Exception", ex.toString());
+        }         
+              
+        return respObj.toString();
+    }
+ 
+ public String ConfirmIrates(String token,Integer irateid){
+        JSONObject respObj = new JSONObject();
+        iRatesJpaController = new  IRatesJpaController();
+        
+              loginToken= new LoginToken();     
+             tkn=loginToken.parseJWT(token);
+        try {
+            int status=  iRatesJpaController.ConfirmIrates(tkn.getUsername(), irateid);
+                       respObj.put("status", status);
+                       respObj.put("msg", "Interest Rate Updated ");
+        }catch(Exception ex){
+                         respObj.put("status", 2);
+                         respObj.put("msg", "Error Occured");
+                         respObj.put("Exception", ex.toString());
+        }         
+              
+        return respObj.toString();
+    }
 }

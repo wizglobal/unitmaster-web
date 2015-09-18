@@ -80,15 +80,13 @@ public class AgentService {
        transAgentJpaController= new TransAgentJpaController();
        loginToken= new LoginToken();     
        tkn=loginToken.parseJWT(token);
-       System.out.println("Ref number "+tkn.getRefno());
        return transAgentJpaController.findAgentTrxnByAgentcode(tkn.getRefno());
   }
-  public List<TransAgentComm> agentDetailedTransactions(String token){
+  public List<TransAgentComm> agentDetailedTransactions(String token,String memberno){
        transAgentCommJpaController= new TransAgentCommJpaController();
        loginToken= new LoginToken();     
        tkn=loginToken.parseJWT(token);
-       System.out.println("Ref number "+tkn.getRefno());
-       return transAgentCommJpaController.findAgentDetailedTransactions(tkn.getMemberno());
+       return transAgentCommJpaController.findAgentDetailedTransactions(memberno);
   }
   
 }

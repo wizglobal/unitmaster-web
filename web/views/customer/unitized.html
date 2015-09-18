@@ -1,4 +1,5 @@
 <div class="row">
+    <div class ="col-md-12">
     <div class="panel panel-info">
         <div class="panel-heading">
           <h3 class="panel-title">Account Statement</h3>
@@ -30,7 +31,7 @@
                 <tbody>
                     <tr ng-repeat="tran in accttransaction">
                             <td >{{ tran.tranid }}</td>
-                            <td>{{ tran.trandate }}</td>
+                            <td>{{ tran.trandate  }}</td>
                             <td>{{ tran.unitspurchased }}</td>
                             <td>{{ tran.purchaseprice }}</td>
                             <td>{{ tran.purchasecost }}</td>
@@ -56,10 +57,11 @@
                <br>
                     <tr>
                       <td colspan="8"><b>Market Value of Shares</b></td>
-                      <td ><b>{{transummary.market_value}}</b></td>
+                      <td colspan="2"><b>    {{transummary.market_value}}</b></td>
                     </tr>
             </table>
             </div>      
         </div>
     </div>
-</div>    
+</div>  
+</div>

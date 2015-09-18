@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/scripts/customer/customer.js</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/views/customer/interestBased.html</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/views/customer/account.html</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/service/TransactionService.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/endpoint/TransactionOperation.java</file>
-            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/views/customer/unitized.html</file>
+            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/service/AgentService.java</file>
+            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/agent.html</file>
+            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/views/agent/agent_statement_detailed.html</file>
+            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/web/scripts/agent/agent.js</file>
+            <file>file:/C:/Users/nhif/Documents/NetBeansProjects/Web/src/java/com/wizglobal/endpoint/AgentOperation.java</file>
         </group>
     </open-files>
 </project-private>
